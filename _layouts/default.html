@@ -3,112 +3,13 @@
 <head> 
     <link rel="shortcut icon" href="http://mediacdn.disqus.com/1291160803/img/favicon.ico" type="image/vnd.microsoft.icon" /> 
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-    <title>DISQUS Code</title> 
-    <script type="text/javascript" src="http://mediacdn.disqus.com/1291160803/js/src/lib/jquery.js"></script>
+    <title>DISQUS Code - {{ page.title }}</title> 
     
-    <!-- css files before script tags --> 
     <link href="http://mediacdn.disqus.com/1291160803/css/base.css" type="text/css" rel="stylesheet" /> 
-
     <link href="http://mediacdn.disqus.com/1291160803/css/dashboard.css" type="text/css" rel="stylesheet" /> 
+    <link href="css/global.css" type="text/css" rel="stylesheet" /> 
     
-    <style type="text/css">
-    #sidebar .module {
-        margin-bottom: 40px;
-    }
-    .projects {
-    }
-    .projects .about {
-    }
-    .projects h3,
-    .projects img,
-    .projects p {
-        margin-bottom: 10px;
-    }
-    .projects p {
-    }
-    .projects h3 {
-        color: #3D6A92;
-        font-size: 18px;
-        font-weight: normal;
-    }
-    .projects img {
-        -moz-border-radius: 6px;
-        border-radius: 6px;
-        background: #D1DBE5;
-        display: inline-block;
-        padding: 6px;
-    }
-    
-    .people {
-        overflow: hidden;
-    }
-
-    .people li {
-        display: inline-block;
-        height: 44px;
-        width: 44px;
-        margin: 2px !important;
-    }
-
-    .people cite {
-        display: none;
-    }
-
-    .people img {
-        width: 36px;
-        height: 36px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        background: #D1DBE5;
-        display: inline-block;
-        padding: 4px;
-    }
-    
-    /*-------------
-    Tumblr
-    -------------*/
-
-    .main {
-        margin: 18px;
-    }
-    .main .tumblr_post {
-        margin-bottom: 20px;
-    }
-    .main .tumblr_title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 18px;
-        border-bottom: 2px solid #DDD;
-        padding-bottom: 10px;
-        background: #f0f0f0;
-        padding: 10px;
-    }
-    .main .tumblr_body {
-        padding: 0 10px;
-    }
-    
-    .loading {
-        display: block;
-        margin: 50px auto;
-    }
-    </style>
-    <script type="text/javascript">
-    tumblr_callback = function(data) {
-        $('#blog-panel .loading').remove();
-        $.each(data.posts, function(_, post){
-            $('<div class="tumblr_post"><div class="tumblr_title"><a href="' + post['url-with-slug'] + '#disqus_thread">' + post['regular-title'] + '</a></div>' +
-                '<div class="tumblr_body">' + post['regular-body'] + '</div></div>').appendTo('#blog-panel');
-        });
-    };
-    $.ajax({
-        dataType: 'script',
-        method: 'GET',
-        url: 'http://blog.disqus.com/api/read/json?tagged=dev&callback=tumblr_callback',
-        failure: function(){
-            $('#blog-panel').text('There was an error loading the recent blog posts. Tumblr :(')
-        }
-    });
-    </script>
+    <script type="text/javascript" src="http://mediacdn.disqus.com/1291160803/js/src/lib/jquery.js"></script>
 </head> 
 <body> 
     <div id="header"> 
@@ -206,9 +107,7 @@
                     </ul> 
                 </div> 
                 <div class="primary"> 
-                    <div class="main" id="blog-panel">
-                        <img src="http://mediacdn.disqus.com/images/loading.gif" class="loading" />
-                    </div>
+                    {{ content }}
                 </div> 
             </div> 
         </div> 

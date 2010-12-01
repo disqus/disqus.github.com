@@ -1,0 +1,96 @@
+#sidebar .module {
+    margin-bottom: 40px;
+}
+.projects {
+}
+.projects .about {
+}
+.projects h3,
+.projects img,
+.projects p {
+    margin-bottom: 10px;
+}
+.projects p {
+}
+.projects h3 {
+    color: #3D6A92;
+    font-size: 18px;
+    font-weight: normal;
+}
+.projects img {
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background: #D1DBE5;
+    display: inline-block;
+    padding: 6px;
+}
+
+.people {
+    overflow: hidden;
+}
+
+.people li {
+    display: inline-block;
+    height: 44px;
+    width: 44px;
+    margin: 2px !important;
+}
+
+.people cite {
+    display: none;
+}
+
+.people img {
+    width: 36px;
+    height: 36px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: #D1DBE5;
+    display: inline-block;
+    padding: 4px;
+}
+
+/*-------------
+Tumblr
+-------------*/
+
+.main {
+    margin: 18px;
+}
+.main .tumblr_post {
+    margin-bottom: 20px;
+}
+.main .tumblr_title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #DDD;
+    padding-bottom: 10px;
+    background: #f0f0f0;
+    padding: 10px;
+}
+.main .tumblr_body {
+    padding: 0 10px;
+}
+
+.loading {
+    display: block;
+    margin: 50px auto;
+}
+
+#logo {
+    color: #fff !important;
+    vertical-align: middle;
+    font-size: 20px;
+    font-family: tahoma;
+    font-weight: bold;
+}
+#logo img {
+    float: left;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding-right: 10px;
+    margin-right: 10px;
+}
+#logo img {
+    vertical-align: text-bottom;
+}
