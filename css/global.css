@@ -104,3 +104,7 @@ Tumblr
 .main img {
     max-width: 100%;
 }
+
+#disqus_thread {
+    margin-top: 18px;
+}
