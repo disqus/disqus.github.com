@@ -4,6 +4,8 @@
     <link rel="shortcut icon" href="http://mediacdn.disqus.com/1291160803/img/favicon.ico" type="image/vnd.microsoft.icon" /> 
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
     <title>DISQUS Code</title> 
+    <script type="text/javascript" src="http://mediacdn.disqus.com/1291160803/js/src/lib/jquery.js"></script>
+    
     <!-- css files before script tags --> 
     <link href="http://mediacdn.disqus.com/1291160803/css/base.css" type="text/css" rel="stylesheet" /> 
 
@@ -87,6 +89,16 @@
         padding: 0 10px;
     }
     </style>
+    <script type="text/javascript">
+    tumblr_callback = function(data) {
+        var post = data.posts[0];
+        $('<div class="tumblr_title">' + post['regular-title'] + '</div>' +
+            '<div class="tumblr_body">' + post['regular-body'] + '</div>').append('#blog-panel');
+            
+        //$('#blog-panel h2').append('<a class="blog-comment-link" href="' + post['url-with-slug'] + '#disqus_thread">Discuss this</a>');
+    };
+    $.getScript('http://blog.disqus.com/api/read/json?tagged=dev&callback=tumblr_callback');
+    </script>
 </head> 
 <body> 
     <div id="header"> 
@@ -184,8 +196,7 @@
                     </ul> 
                 </div> 
                 <div class="primary"> 
-                    <div class="main">
-                        <script type="text/javascript" src="http://blog.disqus.com/tagged/dev/js"></script>
+                    <div class="main" id="blog-panel">
                     </div>
                 </div> 
             </div> 
