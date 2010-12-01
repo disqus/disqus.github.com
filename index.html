@@ -61,7 +61,31 @@
         display: inline-block;
         padding: 4px;
     }
+    
+    /*-------------
+    Tumblr
+    -------------*/
 
+    .main .tumblr_posts {
+        list-style: none;
+        margin: 18px;
+        padding: 0;
+    }
+    .main .tumblr_posts li {
+        margin-bottom: 20px;
+    }
+    .main .tumblr_title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 18px;
+        border-bottom: 2px solid #DDD;
+        padding-bottom: 10px;
+        background: #f0f0f0;
+        padding: 10px;
+    }
+    .main .tumblr_body {
+        padding: 0 10px;
+    }
     </style>
 </head> 
 <body> 
@@ -160,10 +184,9 @@
                     </ul> 
                 </div> 
                 <div class="primary"> 
-                    <div class="header"> 
-                        <h3>Recent Posts</h3> 
+                    <div class="main">
+                        <script type="text/javascript" src="http://blog.disqus.com/tagged/dev/js"></script>
                     </div>
-                    <script type="text/javascript" src="http://blog.disqus.com/tagged/dev/js"></script>
                 </div> 
             </div> 
         </div> 
