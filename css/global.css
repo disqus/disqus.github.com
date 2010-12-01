@@ -1,7 +1,8 @@
 #sidebar .module {
     margin-bottom: 40px;
 }
-.projects {
+.projects li {
+    margin-bottom: 18px;
 }
 .projects .about {
 }
