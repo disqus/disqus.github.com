@@ -68,12 +68,10 @@
     Tumblr
     -------------*/
 
-    .main .tumblr_posts {
-        list-style: none;
+    .main {
         margin: 18px;
-        padding: 0;
     }
-    .main .tumblr_posts li {
+    .main .tumblr_post {
         margin-bottom: 20px;
     }
     .main .tumblr_title {
@@ -88,16 +86,28 @@
     .main .tumblr_body {
         padding: 0 10px;
     }
+    
+    .loading {
+        display: block;
+        margin: 50px auto;
+    }
     </style>
     <script type="text/javascript">
     tumblr_callback = function(data) {
-        var post = data.posts[0];
-        $('<div class="tumblr_title">' + post['regular-title'] + '</div>' +
-            '<div class="tumblr_body">' + post['regular-body'] + '</div>').append('#blog-panel');
-            
-        //$('#blog-panel h2').append('<a class="blog-comment-link" href="' + post['url-with-slug'] + '#disqus_thread">Discuss this</a>');
+        $('#blog-panel .loading').remove();
+        $.each(data.posts, function(_, post){
+            $('<div class="tumblr_post"><div class="tumblr_title"><a href="' + post['url-with-slug'] + '#disqus_thread">' + post['regular-title'] + '</a></div>' +
+                '<div class="tumblr_body">' + post['regular-body'] + '</div></div>').appendTo('#blog-panel');
+        });
     };
-    $.getScript('http://blog.disqus.com/api/read/json?tagged=dev&callback=tumblr_callback');
+    $.ajax({
+        dataType: 'script',
+        method: 'GET',
+        url: 'http://blog.disqus.com/api/read/json?tagged=dev&callback=tumblr_callback',
+        failure: function(){
+            $('#blog-panel').text('There was an error loading the recent blog posts. Tumblr :(')
+        }
+    });
     </script>
 </head> 
 <body> 
@@ -197,6 +207,7 @@
                 </div> 
                 <div class="primary"> 
                     <div class="main" id="blog-panel">
+                        <img src="http://mediacdn.disqus.com/images/loading.gif" class="loading" />
                     </div>
                 </div> 
             </div> 
