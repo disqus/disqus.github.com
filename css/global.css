@@ -17,10 +17,9 @@
     font-size: 18px;
     font-weight: normal;
 }
-.module h3 a {
+.projects h3 a {
     color: inherit;
     text-decoration: none;
-    font-weight: inherit;
 }
 .projects img {
     -moz-border-radius: 6px;
