@@ -1,5 +1,6 @@
 from feedreader.parser import from_url
 import datetime
+import logging
 import os.path
 import re
 import sqlite3
@@ -15,6 +16,7 @@ conn.isolation_level = None
 FEEDS = (
     # ('DISQUS_USERNAME', 'FEED URL'),
     ('zeeg', 'http://www.davidcramer.net/disqus/feed'),
+    ('dz', 'http://blog.nodnod.net/tagged/disqus'),
 )
 
 def slugify(value):
@@ -67,7 +69,10 @@ def main():
     
     agg = FeedAggregator()
     for author, feed in FEEDS:
-        agg.collect(author, feed)
+        try:
+            agg.collect(author, feed)
+        except Exception, e:
+            logging.exception(e)
 
 if __name__ == '__main__':
     main()

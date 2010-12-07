@@ -3,9 +3,21 @@ title: Home
 layout: default
 ---
 
-<div class="main" id="blog-panel">
-    <img src="http://mediacdn.disqus.com/images/loading.gif" class="loading" />
+<div class="main">
+    <h1 class="heading">Recent Posts</h1>
+    <ul class="post-list">
+        {% for post in site.posts limit:5 %}
+            <li class="post">
+                <div class="author">
+                    <img src="http://disqus.com/api/users/avatars/{{ post.disqus_username }}.jpg" class="avatars" alt="{{ post.disqus_username }}"/>
+                </div>
+
+                <h3><a href="{{ post.actual_url }}">{{ post.title }}</a></h3>
+                <h4>Posted on <span class="month"><abbr>{{ post.date | date: '%B' }}</abbr></span> <span class="day">{{ post.date | date: '%d' }}</span> by {{ post.disqus_username }}</h4>
+                <div class="clear"></div>
+                <p class="post-body">{{ post.content }}</p>
+                <div id="disqus"><a class="dsq-comment-count" href="{{ post.actual_url }}#disqus_thread">How many comments?</a></div>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
-
-
-<script type="text/javascript" src="/js/blog.js"></script>
