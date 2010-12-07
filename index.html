@@ -15,7 +15,8 @@ layout: default
                 <h3><a href="{{ post.actual_url }}">{{ post.title }}</a></h3>
                 <h4>Posted on <span class="month"><abbr>{{ post.date | date: '%B' }}</abbr></span> <span class="day">{{ post.date | date: '%d' }}</span> by {{ post.disqus_username }}</h4>
                 <div class="clear"></div>
-                <p class="post-body">{{ post.content }}</p>
+                <div class="post-body">{{ post.content }}</div>
+                <div class="clear"></div>
                 <div id="disqus"><a class="dsq-comment-count" href="{{ post.actual_url }}#disqus_thread">How many comments?</a></div>
             </li>
         {% endfor %}

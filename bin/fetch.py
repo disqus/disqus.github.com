@@ -1,4 +1,5 @@
 from feedreader.parser import from_url
+import cgi
 import codecs
 import datetime
 import logging
@@ -32,6 +33,16 @@ def slugify(value):
     value = re.sub('[-\s]+', '-', value)
     return value
 
+def linebreaks(value, autoescape=False):
+    """Converts newlines into <p> and <br />s."""
+    value = re.sub(r'\r\n|\r|\n', '\n', unicode(value)) # normalize newlines
+    paras = re.split('\n{2,}', value)
+    if autoescape:
+        paras = [u'<p>%s</p>' % cgi.escape(p).replace('\n', '<br />') for p in paras]
+    else:
+        paras = [u'<p>%s</p>' % p.replace('\n', '<br />') for p in paras]
+    return u'\n\n'.join(paras)
+
 class FeedAggregator(object):
     def collect(self, author, feed_url): 
         feed = from_url(feed_url)
@@ -53,6 +64,9 @@ class FeedAggregator(object):
         outfile = codecs.open(os.path.join(os.path.dirname(__file__), '..', '_posts', filename), 'wb', 'utf-8')
         
         template = open(os.path.join(os.path.dirname(__file__), '..', '_templates', 'post.html'), 'r').read()
+        
+        if not body.startswith('<'):
+            body = linebreaks(body)
         
         data = {
             'title': title,
