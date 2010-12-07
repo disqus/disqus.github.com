@@ -1,0 +1,31 @@
+---
+layout: post
+title: Partial Deployment with Feature Switches
+disqus_username: disqus
+actual_url: http://blog.disqus.com/post/789540337
+---
+
+<p>For those of you who don’t know me, I’m <a target="_blank" href="http://disqus.com/zeeg">David Cramer</a>. I’m one of the architects behind some of the cool things that you’ll never get to see within Disqus, well, until today. The tech I want to show off today comes by many names across the web: flippers, buckets, experiments, settings, etc.. we’ve decided to just call it a switch.   Let’s start off by explaining what these terms mean. A switch is exactly that, it’s a logical way to determine if something is on or off. In our case, it’s used for masking features behind the scenes. This allows us to test various components of the site by simply adjusting who can see it with a simple piece of logic.  Hypothetically, if we were building a sexy recommendation engine, this would be a great example of what this can achieve. We want to be able to let a select group of our audience use it, but we’re not quite ready for the general public to be let in yet. With our feature switches, this becomes simple:</p>
+<pre>{% load switch_helpers %}
+{% switch_for_user request.user recommendations %}
+  Here are your recommendations...
+{% endswitch %}
+</pre>
+<p>Now behind the scenes we have some pretty cool logic that goes on. The switch <code>recommendations</code> is able to decide if the user can view this page based on a few criteria. Obvious things like drilling down to staff, specific users, and even the ability to let only a portion of our audience use the system. The obvious power here is that it allows us to roll out features that we’re unsure about slowly.  Today we wanted to show off the interface behind the scenes for our switches, as I think most of our team is pretty proud of what we’re able to achieve with this simple system. The main components are the config name (key) and the conditions. Everything else is for the benefit of non-developers.</p>
+<p><img src="http://media.tumblr.com/tumblr_l59ldytEln1qz6b3k.png"/></p>
+<p>We have a few various filters, they’re geared at users and forums (a forum is an installation of Disqus). The interface allows any non-developer to easily adjust the conditions for which something is active, but it still requires you to adjust your code accordingly.  To finish this up, we’ll give you the very basis of the percentage based (range) logic. This is such a common question, and people don’t realize how simple it can be. Let’s dig into our switches logic for this example:</p>
+<pre>def get_for_user(self, user):
+    if self.value.get('users'):
+        # this gives us 10%, but could be adjusted to a different set of users
+        # simply by changing the range to something like [35, 45]
+        range = [0, 10]
+
+        # perform modulus on the users id to get their % out of 100
+        mod = user.id % 100
+
+        if mod >= range[0] and mod < range[1]:
+            return True
+    return False
+</pre>
+<p>And that’s all there is to it.</p>
+<p>This is a small part in a series of articles we’re planning to publish about our technology. Also so you don’t miss any future updates, feel free to subscribe to our blog <a target="_blank" href="http://feedburner.google.com/fb/a/mailverify?uri=BigHeadLabs&loc=en_US">here</a>.</p>

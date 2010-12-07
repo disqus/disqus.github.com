@@ -1,4 +1,5 @@
 from feedreader.parser import from_url
+import codecs
 import datetime
 import logging
 import os.path
@@ -17,6 +18,7 @@ FEEDS = (
     # ('DISQUS_USERNAME', 'FEED URL'),
     ('zeeg', 'http://www.davidcramer.net/disqus/feed'),
     ('dz', 'http://blog.nodnod.net/tagged/disqus'),
+    ('disqus', 'http://blog.disqus.com/tagged/dev/rss'),
 )
 
 def slugify(value):
@@ -48,7 +50,7 @@ class FeedAggregator(object):
         
         filename = date.strftime('%Y-%m-%d-%%s.html') % slug
         
-        outfile = open(os.path.join(os.path.dirname(__file__), '..', '_posts', filename), 'wb')
+        outfile = codecs.open(os.path.join(os.path.dirname(__file__), '..', '_posts', filename), 'wb', 'utf-8')
         
         template = open(os.path.join(os.path.dirname(__file__), '..', '_templates', 'post.html'), 'r').read()
         
