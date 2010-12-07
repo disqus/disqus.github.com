@@ -1,3 +1,13 @@
+---
+engineers:
+   - Jason
+   - antonkovalyov
+   - bretthoerner
+   - benvinegar
+   - zeeg
+   - dz
+   - sugarc0de
+---
 <!DOCTYPE html> 
 <html> 
 <head> 
@@ -43,48 +53,14 @@
                         <li class="module"> 
                             <h3>The Engineers</h3> 
                             <ul class="people">
-                                <li>
-                                    <a href="http://disqus.com/sugarc0de/">
-                                        <img src="http://disqus.com/api/users/avatars/sugarc0de.jpg" alt="">
-                                        <cite>Mike Clarke</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/zeeg/">
-                                        <img src="http://disqus.com/api/users/avatars/zeeg.jpg" alt="">
-                                        <cite>David Cramer</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/bretthoerner/">
-                                        <img src="http://disqus.com/api/users/avatars/bretthoerner.jpg" alt="">
-                                        <cite>Brett Hoerner</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/antonkovalyov/">
-                                        <img src="http://disqus.com/api/users/avatars/antonkovalyov.jpg" alt="">
-                                        <cite>Anton Kovalyov</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/dz/">
-                                        <img src="http://disqus.com/api/users/avatars/dz.jpg" alt="">
-                                        <cite>David Zhou</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/benvinegar/">
-                                        <img src="http://disqus.com/api/users/avatars/benvinegar.jpg" alt="">
-                                        <cite>Ben Vinegar</cite>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://disqus.com/Jason/">
-                                        <img src="http://disqus.com/api/users/avatars/Jason.jpg" alt="">
-                                        <cite>Jason Yan</cite>
-                                    </a>
-                                </li>
+                                {% for username in page.engineers %}
+                                    <li>
+                                        <a href="http://disqus.com/{{ username }}/" title="{{ username }}">
+                                            <img src="http://disqus.com/api/users/avatars/{{ username }}.jpg" alt="">
+                                            <cite>{{ username }}</cite>
+                                        </a>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="module"> 
