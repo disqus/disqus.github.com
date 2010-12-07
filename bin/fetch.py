@@ -67,6 +67,9 @@ class FeedAggregator(object):
         
         if not body.startswith('<'):
             body = linebreaks(body)
+            
+        body = body.replace('{', '&#123;')\
+                   .replace('}', '&#125;')
         
         data = {
             'title': title,

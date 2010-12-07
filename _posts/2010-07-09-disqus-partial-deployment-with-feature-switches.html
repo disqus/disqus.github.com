@@ -6,10 +6,10 @@ actual_url: http://blog.disqus.com/post/789540337
 ---
 
 <p>For those of you who don’t know me, I’m <a target="_blank" href="http://disqus.com/zeeg">David Cramer</a>. I’m one of the architects behind some of the cool things that you’ll never get to see within Disqus, well, until today. The tech I want to show off today comes by many names across the web: flippers, buckets, experiments, settings, etc.. we’ve decided to just call it a switch.   Let’s start off by explaining what these terms mean. A switch is exactly that, it’s a logical way to determine if something is on or off. In our case, it’s used for masking features behind the scenes. This allows us to test various components of the site by simply adjusting who can see it with a simple piece of logic.  Hypothetically, if we were building a sexy recommendation engine, this would be a great example of what this can achieve. We want to be able to let a select group of our audience use it, but we’re not quite ready for the general public to be let in yet. With our feature switches, this becomes simple:</p>
-<pre>{% load switch_helpers %}
-{% switch_for_user request.user recommendations %}
+<pre>&#123;% load switch_helpers %&#125;
+&#123;% switch_for_user request.user recommendations %&#125;
   Here are your recommendations...
-{% endswitch %}
+&#123;% endswitch %&#125;
 </pre>
 <p>Now behind the scenes we have some pretty cool logic that goes on. The switch <code>recommendations</code> is able to decide if the user can view this page based on a few criteria. Obvious things like drilling down to staff, specific users, and even the ability to let only a portion of our audience use the system. The obvious power here is that it allows us to roll out features that we’re unsure about slowly.  Today we wanted to show off the interface behind the scenes for our switches, as I think most of our team is pretty proud of what we’re able to achieve with this simple system. The main components are the config name (key) and the conditions. Everything else is for the benefit of non-developers.</p>
 <p><img src="http://media.tumblr.com/tumblr_l59ldytEln1qz6b3k.png"/></p>

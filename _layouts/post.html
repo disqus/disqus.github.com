@@ -2,21 +2,22 @@
 layout: default
 category: posts
 ---
+<div class="main">
 
-<ul class="post-list">
-    <li class="post">
-        <div class="author">
-            <img src="http://disqus.com/api/users/avatars/{{ page.disqus_username }}.jpg" class="avatars" alt="{{ page.disqus_username }}"/>
-        </div>
+    <ul class="post-list">
+        <li class="post">
+            <div class="author">
+                <img src="http://disqus.com/api/users/avatars/{{ page.disqus_username }}.jpg" class="avatars" alt="{{ page.disqus_username }}"/>
+            </div>
 
-        <h3><a href="{{ page.actual_url }}">{{ page.title }}</a></h3>
-        <h4>Posted on <span class="month"><abbr>{{ page.date | date: '%B' }}</abbr></span> <span class="day">{{ page.date | date: '%d' }}</span> by {{ page.disqus_username }}</h4>
-        <div class="clear"></div>
-        <div class="post-body">{{ page.content }}</div>
-        <div class="clear"></div>
-        <div id="disqus"><a class="dsq-comment-count" href="{{ page.actual_url }}#disqus_thread">How many comments?</a></div>
-    </li>
-</ul>
+            <h3><a href="{{ page.actual_url }}">{{ page.title }}</a></h3>
+            <h4>Posted on <span class="month"><abbr>{{ page.date | date: '%B' }}</abbr></span> <span class="day">{{ page.date | date: '%d' }}</span> by {{ page.disqus_username }}</h4>
+            <div class="clear"></div>
+            <div class="post-body">{{ page.content }}</div>
+            <div class="clear"></div>
+            <div id="disqus"><a class="dsq-comment-count" href="{{ page.actual_url }}#disqus_thread">How many comments?</a></div>
+        </li>
+    </ul>
 
     <div class="page-nav-top">
         {% if page.previous %}
