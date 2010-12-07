@@ -18,7 +18,7 @@ conn.isolation_level = None
 FEEDS = (
     # ('DISQUS_USERNAME', 'FEED URL'),
     ('zeeg', 'http://www.davidcramer.net/disqus/feed'),
-    ('dz', 'http://blog.nodnod.net/tagged/disqus'),
+    ('dz', 'http://blog.nodnod.net/tagged/disqus/rss'),
     ('disqus', 'http://blog.disqus.com/tagged/dev/rss'),
 )
 
