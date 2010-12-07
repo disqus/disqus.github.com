@@ -1,0 +1,27 @@
+---
+layout: default
+category: posts
+---
+
+<div class="main" id="project">
+    <h1><a href="{{ page.link }}">{{ post.title }}</a></h1>
+    <p>Posted by <a href="http://disqus.com/{{ page.disqus_username }}">{{ page.disqus_username }}</a> on {{ page.date }}</p>
+
+    {{ post.content }}
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      /**
+        * var disqus_identifier; [Optional but recommended: Define a unique identifier (e.g. post id or slug) for this thread] 
+        */
+      var disqus_identifier = 'post-{{ post.id }}';
+      (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://disqus.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=davidcramer">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
