@@ -2,6 +2,7 @@
 layout: post
 title: Sentry, our Django Error Tracker
 disqus_username: disqus
+disqus_forum: disqus
 actual_url: http://blog.disqus.com/post/1178923988
 ---
 
@@ -12,10 +13,15 @@ actual_url: http://blog.disqus.com/post/1178923988
 <p><img width="400" src="http://dl.dropbox.com/u/116385/sentry2.jpg"/></p>
 <p>Sentry aggregates errors based on the erring function (typically your view), and gives interactive debugging similar to the debugging in a development environment.  We have many more ideas that we want to include, but a few things were important to us from the beginning:</p>
 <p>1. Intelligently grouping error messages.<br/>2. Identifying erring servers, functions, and URLs.<br/>3. Streaming errors to the list as they happen without a manual refresh.</p>
-<ol></ol><p>What we came up with is a clean and straightforward interface for diving into message logs. But instead of talking through the UI, we’re just going to show you a video demo. A few things to take note during the video:</p>
+<ol></ol>
+<p>What we came up with is a clean and straightforward interface for diving into message logs. But instead of talking through the UI, we’re just going to show you a video demo. A few things to take note during the video:</p>
 <p>* The error list is updated in real time.<br/>* Message resolution will automatically relist resolved errors if they continue to happen.<br/>* The IP Address search is a custom filter (still a work in progress)</p>
-<ul></ul><p><strong>Check out the <a href="http://vimeo.com/15235999">video</a>, <a href="http://github.com/dcramer/django-sentry">fork us on GitHub</a>, and let us know what you think by leaving a comment.</strong></p>
+<ul></ul>
+<p><strong>Check out the <a href="http://vimeo.com/15235999">video</a>, <a href="http://github.com/dcramer/django-sentry">fork us on GitHub</a>, and let us know what you think by leaving a comment.</strong></p>
 <p>
 <object height="450" width="600">
-<param value="true" name="allowfullscreen"><param value="always" name="allowscriptaccess"><param value="http://vimeo.com/moogaloop.swf?clip_id=15235999&server=vimeo.com&show_title=1&show_byline=1&show_portrait=1&color=00ADEF&fullscreen=1&autoplay=0&loop=0" name="movie"><embed height="450" width="600" allowscriptaccess="always" allowfullscreen="true" type="application/x-shockwave-flash" src="http://vimeo.com/moogaloop.swf?clip_id=15235999&server=vimeo.com&show_title=1&show_byline=1&show_portrait=1&color=00ADEF&fullscreen=1&autoplay=0&loop=0"></embed></object>
+<param value="true" name="allowfullscreen">
+<param value="always" name="allowscriptaccess">
+<param value="http://vimeo.com/moogaloop.swf?clip_id=15235999&server=vimeo.com&show_title=1&show_byline=1&show_portrait=1&color=00ADEF&fullscreen=1&autoplay=0&loop=0" name="movie">
+<embed height="450" width="600" allowscriptaccess="always" allowfullscreen="true" type="application/x-shockwave-flash" src="http://vimeo.com/moogaloop.swf?clip_id=15235999&server=vimeo.com&show_title=1&show_byline=1&show_portrait=1&color=00ADEF&fullscreen=1&autoplay=0&loop=0"></embed></object>
 </p>
