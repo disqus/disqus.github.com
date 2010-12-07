@@ -126,6 +126,7 @@
     margin: 20px auto;
     display: block;
     padding: 6px;
+    max-width: 100%;
     background: #fff;
     -webkit-box-shadow: 0 1px 3px rgba(35,75,111,.25);
     -moz-box-shadow: 0 1px 3px rgba(35,75,111,.25);
