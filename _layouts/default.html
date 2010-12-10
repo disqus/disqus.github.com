@@ -75,9 +75,10 @@ engineers:
                 <a href="http://code.disqus.com/" id="logo"><img src="http://mediacdn.disqus.com/1291160803/img/disqus-logo.png" alt="DISQUS" title="Disqus - Discover your community"/> CODE</a>
                 
                 <ul id="account-nav"> 
-                    <li><a href="/">Blog</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="http://lanyrd.com/search/?q=disqus">Presentations</a></li>
+                    <li{% if page.section == 'blog' %} class="selected"{% endif %}><a href="/">Blog</a></li>
+                    <li{% if page.section == 'projects' %} class="selected"{% endif %}><a href="/projects/">Projects</a></li>
+                    <li{% if page.section == 'presentations' %} class="selected"{% endif %}><a href="http://lanyrd.com/search/?q=disqus">Presentations</a></li>
+                    <li{% if page.section == 'technology' %} class="selected"{% endif %}><a href="/technology/">Technology</a></li>
                 </ul> 
                 
             </div> 
