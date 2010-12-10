@@ -163,3 +163,17 @@
 #disqus_thread {
     margin-top: 18px;
 }
+
+.feed-link {
+    float: right;
+    display: block;
+    background: url('../images/feed-28x28.png') right center no-repeat;
+    height: 28px;
+    width: 28px;
+    line-height: 28px;
+    text-indent: -10000em;
+}
+h1.heading {
+    line-height: 28px;
+    height: 28px;
+}
