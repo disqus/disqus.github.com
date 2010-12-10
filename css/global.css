@@ -28,7 +28,7 @@
 #sidebar .module {
     margin-bottom: 40px;
 }
-.projects li {
+.module .projects li {
     margin-bottom: 28px;
 }
 .projects .about {
