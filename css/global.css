@@ -177,3 +177,6 @@ h1.heading {
     line-height: 28px;
     height: 28px;
 }
+h2 {
+    font-size: 20px;
+}
