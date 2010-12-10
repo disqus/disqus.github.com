@@ -6,7 +6,7 @@ cd $DIRECTORY
 
 cd ../
 git pull origin master
-python fetch.py
-git add ../_posts/
+python bin/fetch.py
+git add _posts/
 git commit -a -m "Synced RSS feeds"
 git push origin master
