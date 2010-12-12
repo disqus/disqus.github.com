@@ -20,6 +20,7 @@ FEEDS = (
     ('zeeg', 'davidcramer', 'http://www.davidcramer.net/disqus/feed'),
     ('dz', 'nodnod', 'http://blog.nodnod.net/tagged/disqus/rss'),
     ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
+    ('bretthoerner', 'bretthoerner', 'http://bretthoerner.com/tags/disqus/feed.atom'),
 )
 
 def slugify(value):
