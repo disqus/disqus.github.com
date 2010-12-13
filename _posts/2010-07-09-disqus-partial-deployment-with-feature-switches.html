@@ -4,6 +4,8 @@ title: Partial Deployment with Feature Switches
 disqus_username: disqus
 disqus_forum: disqus
 actual_url: http://blog.disqus.com/post/789540337
+summary:
+   <p>For those of you who don’t know me, I’m <a target="_blank" href="http://disqus.com/zeeg">David Cramer</a>. I’m one of the architects behind some of the cool things that you’ll never get to see within Disqus, well, until today. The tech I want to show off today comes by many names across the web: flippers, buckets, experiments, settings, etc.. we’ve decided to just call it a switch.   Let’s start off by explaining what these terms mean. A switch is exactly that, it’s a logical way to determine if something is on or off. In our case, it’s used ...</p>
 ---
 
 <p>For those of you who don’t know me, I’m <a target="_blank" href="http://disqus.com/zeeg">David Cramer</a>. I’m one of the architects behind some of the cool things that you’ll never get to see within Disqus, well, until today. The tech I want to show off today comes by many names across the web: flippers, buckets, experiments, settings, etc.. we’ve decided to just call it a switch.   Let’s start off by explaining what these terms mean. A switch is exactly that, it’s a logical way to determine if something is on or off. In our case, it’s used for masking features behind the scenes. This allows us to test various components of the site by simply adjusting who can see it with a simple piece of logic.  Hypothetically, if we were building a sexy recommendation engine, this would be a great example of what this can achieve. We want to be able to let a select group of our audience use it, but we’re not quite ready for the general public to be let in yet. With our feature switches, this becomes simple:</p>

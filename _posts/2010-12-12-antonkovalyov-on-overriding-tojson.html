@@ -4,10 +4,10 @@ title: On overriding toJSON
 disqus_username: antonkovalyov
 disqus_forum: self
 actual_url: http://anton.kovalyov.net/2010/12/12/on-overriding-tojson
+summary:
+   <p>Last week, we quietly<sup class="footnote"><a href="#fn1">1</a></sup> rolled out an update that swapped our intramural library for cross-domain communications with <a href="http://easyxdm.net/">easyXDM</a>. We decided in favor of easyXDM simply because it is very well tested and supports more browsers (Firefox 1 anyone?) than the one we built.</p>   <p>The integration process was not that straightforward because embedded Disqus runs in a myriad of different environments; and you will be surprised by how much built-in stuff people tend to override or define carelessly. And <code>Object.toJSON</code> method is just one example.</p>   <p><span class="caps">ECMA</span>-262 defines <code>toJSON</code> as a method that, if exists and callable, returns a ...</p>
 ---
 
-<h1>On overriding toJSON</h1>
-<p class="meta">12 Dec 2010 &#8212; Berkeley</p>
 <p>Last week, we quietly<sup class="footnote"><a href="#fn1">1</a></sup> rolled out an update that swapped our intramural library for cross-domain communications with <a href="http://easyxdm.net/">easyXDM</a>. We decided in favor of easyXDM simply because it is very well tested and supports more browsers (Firefox 1 anyone?) than the one we built.</p>
 <p>The integration process was not that straightforward because embedded Disqus runs in a myriad of different environments; and you will be surprised by how much built-in stuff people tend to override or define carelessly. And <code>Object.toJSON</code> method is just one example.</p>
 <p><span class="caps">ECMA</span>-262 defines <code>toJSON</code> as a method that, if exists and callable, returns a value that <code>JSON.stringify</code> can use to convert an object into a <span class="caps">JSON</span> text. It is useful, for example, when converting a <code>Date</code> object.</p>
