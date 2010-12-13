@@ -183,7 +183,7 @@ h2 {
 
 /* Syntax highlighting */
 
-.highlight  { background: #f8f8fe; border: solid 1px #dedede; padding: 10px; }
+.highlight  { background: #f8f8fe; border: solid 1px #dedede; padding: 10px; margin-bottom: 18px; }
 .highlight pre { padding: 0; margin: 0; }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
