@@ -15,7 +15,13 @@ section: blog
                 </div>
 
                 <h3><a href="{{ post.actual_url }}">{{ post.title }}</a></h3>
-                <h4>Posted on <span class="month"><abbr>{{ post.date | date: '%B' }}</abbr></span> <span class="day">{{ post.date | date: '%d' }}</span> by <a href="http://disqus.com/{{ post.disqus_username }}/" class="profile-launcher" data-profile-username="{{ post.disqus_username}}">{{ post.disqus_username }}</a></h4>
+                <h4>
+                    Posted on <span class="month"><abbr>{{ post.date | date: '%B' }}</abbr></span> <span class="day">{{ post.date | date: '%d' }}</span>
+                    by <a href="http://disqus.com/{{ post.disqus_username }}/" class="profile-launcher" data-profile-username="{{ post.disqus_username}}">{{ post.disqus_username }}</a>
+                    {% unless post.tags == empty %}
+                        (<strong>{{ post.tags | join: '</strong>, <strong>' }}</strong>)
+                    {% endunless %}
+                </h4>
                 <div class="clear"></div>
                 <div class="post-body">{{ post.content }}</div>
                 <div class="clear"></div>
