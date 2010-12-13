@@ -8,7 +8,7 @@ section: blog
     <a href="http://feeds.feedburner.com/DisqusCode" class="feed-link">Subscribe</a>
     <h1 class="heading">Recent Posts</h1>
     <ul class="post-list" id="post-list">
-        {% for post in site.posts limit:5 %}
+        {% for post in paginator.posts %}
             <li class="post" data-forum="{{ post.disqus_forum }}" data-link="{{ post.actual_url }}">
                 <div class="author">
                     <img src="http://disqus.com/api/users/avatars/{{ post.disqus_username }}.jpg" class="avatars" alt="{{ post.disqus_username }}"/>
@@ -23,4 +23,17 @@ section: blog
             </li>
         {% endfor %}
     </ul>
+
+    <div id="pagination">
+        <div id="previouspage">
+            {% if paginator.previous_page %}
+                <a href="/page{{ paginator.previous_page }}">« Previous</a> 
+            {% endif %}
+        </div>
+        <div id="nextpage">
+            {% if paginator.previous_page %}
+                <a href="/page{{ paginator.next_page }}">Next »</a> 
+            {% endif %}
+        </div>
+    </div>
 </div>
