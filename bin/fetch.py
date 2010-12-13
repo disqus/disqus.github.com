@@ -53,11 +53,16 @@ class FeedAggregator(object):
             cursor.execute('select 1 from entries where url = ? limit 1', [unicode(entry.link)])
             if not cursor.fetchall():
                 slug = '%s-%s' % (author, slugify(unicode(entry.title)))
-                self.write(author, forum, entry.link, entry.title, entry.description, entry.published, slug)
+                self.write(author, forum, entry.link, entry.title,
+                           entry.description, entry.published, slug)
                 cursor.execute('insert into entries values(?)', [unicode(entry.link)])
     
     def write(self, disqus_username, disqus_forum, url, title, body, date=None, slug=None):
+        if not url:
+            return
+        
         print "Saving", url
+
         if not date:
             date = datetime.datetime.now()
         
