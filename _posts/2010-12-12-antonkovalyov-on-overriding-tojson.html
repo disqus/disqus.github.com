@@ -1,0 +1,70 @@
+---
+layout: post
+title: On overriding toJSON
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2010/12/12/on-overriding-tojson
+---
+
+<h1>On overriding toJSON</h1>
+<p class="meta">12 Dec 2010 &#8212; Berkeley</p>
+<p>Last week, we quietly<sup class="footnote"><a href="#fn1">1</a></sup> rolled out an update that swapped our intramural library for cross-domain communications with <a href="http://easyxdm.net/">easyXDM</a>. We decided in favor of easyXDM simply because it is very well tested and supports more browsers (Firefox 1 anyone?) than the one we built.</p>
+<p>The integration process was not that straightforward because embedded Disqus runs in a myriad of different environments; and you will be surprised by how much built-in stuff people tend to override or define carelessly. And <code>Object.toJSON</code> method is just one example.</p>
+<p><span class="caps">ECMA</span>-262 defines <code>toJSON</code> as a method that, if exists and callable, returns a value that <code>JSON.stringify</code> can use to convert an object into a <span class="caps">JSON</span> text. It is useful, for example, when converting a <code>Date</code> object.</p>
+<p>That brings us to Prototype, a library that uses <code>toJSON</code> to convert objects into <span class="caps">JSON</span>. There is nothing wrong with this approach except that you can&#8217;t use built-in <span class="caps">JSON</span> functions (or even Crockford&#8217;s JSON2.js), if Prototype is around. Stringifier calls toJSON, gets back a <span class="caps">JSON</span> text and converts it into <span class="caps">JSON</span> again, adding extra quotes in the result. And we, developers of the embedded widgets, get an environment where <code>JSON.parse(JSON.stringify([1,2,3]));</code> returns a string instead of an array.</p>
+<p>To get around this, I used a trick learned from reading easyXDM source:</p>
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">&#123;</span>
+    <span class="nx">a</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">&#125;,</span> <span class="nx">json</span> <span class="o">=</span> <span class="s2">&quot;&#123;\&quot;a\&quot;:[1,2,3]&#125;&quot;</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">;</span>
+
+<span class="c1">// First, check if JSON object is present and works correctly.</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">JSON</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span> <span class="o">===</span> <span class="s2">&quot;function&quot;</span> <span class="o">&amp;&amp;</span>
+    <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">).</span><span class="nx">replace</span><span class="p">((</span><span class="sr">/\s/g</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">===</span> <span class="nx">json</span><span class="p">)</span> <span class="p">&#123;</span>
+    <span class="nx">DISQUS</span><span class="p">.</span><span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">;</span>
+<span class="p">&#125;</span>
+
+<span class="c1">// If there is a Prototype on the page, check if we can use Object.toJSON</span>
+<span class="c1">// and String.evalJSON to stringify and parse objects respectively.</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">)</span> <span class="p">&#123;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">(</span><span class="nx">obj</span><span class="p">).</span><span class="nx">replace</span><span class="p">((</span><span class="sr">/\s/g</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">===</span> <span class="nx">json</span><span class="p">)</span> <span class="p">&#123;</span>
+        <span class="nx">DISQUS</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">stringify</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">;</span>
+    <span class="p">&#125;</span>
+<span class="p">&#125;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">evalJSON</span> <span class="o">===</span> <span class="s2">&quot;function&quot;</span><span class="p">)</span> <span class="p">&#123;</span>
+    <span class="nx">obj</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">evalJSON</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">a</span> <span class="o">&amp;&amp;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="p">&#123;</span>
+        <span class="c1">// This is a working parse method.</span>
+        <span class="nx">DISQUS</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">parse</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)&#123;</span>
+            <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">evalJSON</span><span class="p">();</span>
+        <span class="p">&#125;;</span>
+    <span class="p">&#125;</span>
+<span class="p">&#125;</span>
+
+<span class="c1">// If we cannot use both JSON and Prototype, use our fork of JSON2.js.</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">DISQUS</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">stringify</span> <span class="o">||</span> <span class="o">!</span><span class="nx">DISQUS</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">parse</span><span class="p">)</span> <span class="p">&#123;</span>
+  <span class="c1">// Use JSON2.js</span>
+<span class="p">&#125;</span>
+</code></pre>
+</div><p>The code works fine until it hits the page where developers thought it was a good idea to make <code>Array.toJSON</code> act as a shortcut to <code>JSON.stringify</code>, or to corrupt <code>toJSON</code> method in some other way<sup class="footnote"><a href="#fn2">2</a></sup>. That matters because JSON2.js follows the specification and tries to use <code>toJSON</code> method whenever possible.</p>
+<p>For that kind of situations, we have to add additional check to detect when <code>toJSON</code> is corrupted:</p>
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="nx">corrupted</span><span class="p">;</span>
+  
+<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">toJSON</span> <span class="o">===</span> <span class="s2">&quot;function&quot;</span><span class="p">)</span> <span class="p">&#123;</span>
+    <span class="nx">arr</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">();</span>
+    <span class="nx">corrupted</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="nx">arr</span> <span class="o">&amp;&amp;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+<span class="p">&#125;</span>
+</code></pre>
+</div><p>This code tests only arrays but it should be pretty straightforward to test generic objects as well. And if you have any similar stories or interesting tricks, please share.</p>
+<div class="footnotes">
+<p class="footnote" id="fn1"><sup>1</sup> <a href="http://twitter.com/#!/antonkovalyov/status/12997108147687424">This tweet</a> to the easyXDM maintainer is the only announcement as far as I know.</p>
+<p class="footnote" id="fn2"><sup>2</sup> I remember seeing a website that did something like:<br />
+<div class="highlight"><pre><code class="javascript"><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toJSON</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">&#123;</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">JSONConverter</span><span class="p">();</span>
+<span class="p">&#125;;</span>
+</code></pre>
+</div><br />
+</div></p>
