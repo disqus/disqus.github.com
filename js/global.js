@@ -19,7 +19,7 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     $.each(data, function(_, thread){
-                        $('#post-list .post[data-link=' + thread.link + '] .dsq-comment-count').text(thread.posts + ' comment' + (thread.posts != 1 ? 's' : '') + ' and ' + thread.reactions + ' reaction' + (thread.reactions != 1 ? 's' : ''));
+                        $('#post-list .post[data-link=' + thread.link + '] .dsq-comment-count').text((thread.posts || 0) + ' comment' + (thread.posts != 1 ? 's' : '') + ' and ' + (thread.reactions || 0) + ' reaction' + (thread.reactions != 1 ? 's' : ''));
                     });
                 }
             });
