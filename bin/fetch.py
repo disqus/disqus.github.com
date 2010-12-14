@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from feedreader.parser import from_url
 import cgi
 import codecs
@@ -15,7 +17,7 @@ FEEDS = (
     # ('DISQUS USERNAME', 'DISQUS FORUM SHORTNAME', 'FEED URL'),
     ('zeeg', 'davidcramer', 'http://www.davidcramer.net/disqus/feed'),
     ('dz', 'nodnod', 'http://blog.nodnod.net/tagged/disqus/rss'),
-    ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
+    # ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
     ('bretthoerner', 'bretthoerner', 'http://bretthoerner.com/tags/disqus/feed.atom'),
     ('antonkovalyov', 'self', 'http://anton.kovalyov.net/disqus.xml'),
 )
