@@ -33,7 +33,7 @@ section: blog
     <div id="pagination">
         <div id="previouspage">
             {% if paginator.previous_page %}
-                <a href="/page{{ paginator.previous_page }}/">« Previous</a> 
+                <a href="{% if paginator.previous_page == 1 %}/{% else %}/page{{ paginator.previous_page }}/{% endif %}">« Previous</a> 
             {% endif %}
         </div>
         <div id="nextpage">
