@@ -29,6 +29,11 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #CBD0DA;
 }
+
+#sidebar .banner {
+    text-align: center;
+}
+
 .module .projects,
 .projects {
     margin: 0;
