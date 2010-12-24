@@ -27,7 +27,6 @@ engineers:
         document.domain = 'disqus.com';
 
         context.disqusDomain = 'disqus.com';
-        
         context.disqusUrl = 'http://' + context.disqusDomain;
         context.apiUrl = context.disqusUrl + '/api/3.0/';
         context.mediaUrl = 'http://mediacdn.disqus.com/1291936940';
@@ -51,6 +50,40 @@ engineers:
             'admin': '',
             'disqus_admin': ''
         };
+        // http://stackoverflow.com/questions/260749/what-is-the-best-way-to-get-and-set-a-single-cookie-value-using-javascript
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        var data = readCookie('disqusauth');
+        if (data) {
+            data = data.split('|');
+            if (parseInt(data[0]) >= 1) {
+                data = {
+                    'username': data[1],
+                    'is_staff': parseInt(data[2], 10),
+                    'has_forums': parseInt(data[3]),
+                    'datetime_formatting': parseInt(data[4], 10) ? 'absolute' : 'relative',
+                    'tz_offset': data[5]
+                };
+            } else {
+                data = {
+                    'username': data[0],
+                    'is_staff': parseInt(data[1], 10),
+                    'has_forums': data[2].length > 0,
+                    'datetime_formatting': parseInt(data[3], 10) ? 'absolute' : 'relative',
+                    'tz_offset': data[4]
+                };
+            }
+        }
+        context.auth = data || {};
     </script>
     
     <script src="http://mediacdn.disqus.com/1291160803/js/src/lib/jquery.js" type="text/javascript"></script>
