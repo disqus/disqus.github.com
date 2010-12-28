@@ -15,7 +15,7 @@ except ImportError:
 
 FEEDS = (
     # ('DISQUS USERNAME', 'DISQUS FORUM SHORTNAME', 'FEED URL'),
-    ('zeeg', 'davidcramer', 'http://www.justcramer.com/feeds/disqus.xml'),
+    ('zeeg', 'davidcramer', 'http://justcramer.com/feeds/disqus.xml'),
     ('dz', 'nodnod', 'http://blog.nodnod.net/tagged/disqus/rss'),
     # ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
     ('bretthoerner', 'bretthoerner', 'http://bretthoerner.com/tags/disqus/feed.atom'),
