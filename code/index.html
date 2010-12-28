@@ -15,17 +15,17 @@ section: projects
             <div class="about">
                 <p>{{ post.oneliner }}</p>
                 <p>
-                    {% if page.github %}
-                        <a class="button small xtrasmall" href="{{ page.github }}">GitHub</a>
+                    {% if post.github %}
+                        <a class="button small xtrasmall" href="{{ post.github }}">GitHub</a>
                     {% endif %}
-                    {% if page.pypi %}
-                        <a class="button small xtrasmall" href="{{ page.pypi }}">PyPi</a>
+                    {% if post.pypi %}
+                        <a class="button small xtrasmall" href="{{ post.pypi }}">PyPi</a>
                     {% endif %}
-                    {% if page.bugtracker %}
-                        <a class="button small xtrasmall" href="{{ page.bugtracker }}">Issue Tracker</a>
+                    {% if post.bugtracker %}
+                        <a class="button small xtrasmall" href="{{ post.bugtracker }}">Issue Tracker</a>
                     {% endif %}
-                    {% if page.usergroup %}
-                        <a class="button small xtrasmall" href="{{ page.usergroup }}">Google Group</a>
+                    {% if post.usergroup %}
+                        <a class="button small xtrasmall" href="{{ post.usergroup }}">Google Group</a>
                     {% else %}
                         <a class="button small xtrasmall" href="https://groups.google.com/forum/#!forum/disqus-opensource">Google Group</a>
                     {% endif %}
