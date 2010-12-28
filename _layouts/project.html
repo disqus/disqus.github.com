@@ -1,11 +1,29 @@
 ---
 layout: default
-category: projects
-section: projects
+section: code
 ---
 
 <div class="main" id="project">
     <h1>{{ page.title }}</h1>
+
+    {{ page.summary }}
+
+    <p>
+        {% if page.github %}
+            <a class="button small xtrasmall" href="{{ page.github }}">GitHub</a>
+        {% endif %}
+        {% if page.pypi %}
+            <a class="button small xtrasmall" href="{{ page.pypi }}">PyPi</a>
+        {% endif %}
+        {% if page.bugtracker %}
+            <a class="button small xtrasmall" href="{{ page.bugtracker }}">Issue Tracker</a>
+        {% endif %}
+        {% if page.usergroup %}
+            <a class="button small xtrasmall" href="{{ page.usergroup }}">Google Group</a>
+        {% else %}
+            <a class="button small xtrasmall" href="https://groups.google.com/forum/#!forum/disqus-opensource">Google Group</a>
+        {% endif %}
+    </p>
 
     {{ content }}
     

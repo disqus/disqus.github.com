@@ -111,7 +111,7 @@ engineers:
                 
                 <ul id="account-nav"> 
                     <li{% if page.section == 'blog' %} class="selected"{% endif %}><a href="/">Blog</a></li>
-                    <li{% if page.section == 'projects' %} class="selected"{% endif %}><a href="/projects/">Projects</a></li>
+                    <li{% if page.section == 'code' %} class="selected"{% endif %}><a href="/code/">Open Source</a></li>
                     <li{% if page.section == 'technology' %} class="selected"{% endif %}><a href="/technology/">Technology</a></li>
                     <li{% if page.section == 'presentations' %} class="selected"{% endif %}><a href="http://lanyrd.com/search/?q=disqus">Presentations</a></li>
                 </ul> 
@@ -139,32 +139,16 @@ engineers:
                             </ul>
                         </li>
                         <li class="module"> 
-                            <h3>Open Source <a href="/projects/" class="button small xtrasmall">More</a></h3>
+                            <h3>Open Source <a href="/code/" class="button small xtrasmall">More</a></h3>
                             <ul class="projects">
+                                {% for post in site.categories.projects %}
                                 <li>
-                                    <h3><a href="/projects/sentry.html">Sentry</a></h3>
+                                    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
                                     <div class="about">
-                                        <p>Real-time exception tracking</p>
+                                        <p>{{ post.oneliner }}</p>
                                     </div>
                                 </li>
-                                <li>
-                                    <h3><a href="/projects/gargoyle.html">Gargoyle</a></h3>
-                                    <div class="about">
-                                        <p>Feature switches</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h3><a href="/projects/nexus.html">Nexus</a></h3>
-                                    <div class="about">
-                                        <p>Extensible administration</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h3><a href="/projects/textmate-bundles.html">TextMate Bundles</a></h3>
-                                    <div class="about">
-                                        <p>Various additions for TextMate</p>
-                                    </div>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="banner">

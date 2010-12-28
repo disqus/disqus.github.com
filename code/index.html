@@ -1,0 +1,63 @@
+---
+title: Projects
+layout: default
+section: projects
+---
+
+<div class="main">
+    <h1>Open Source</h1>
+    <p>Feedback and ideas? Join the <a href="https://groups.google.com/forum/#!forum/disqus-opensource">DISQUS Open Source Google Group</a>.</p>
+    <h2>Projects</h2>
+    <ul class="projects">
+        {% for post in site.categories.projects %}
+        <li>
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+            <div class="about">
+                <p>{{ post.oneliner }}</p>
+                <p>
+                    {% if page.github %}
+                        <a class="button small xtrasmall" href="{{ page.github }}">GitHub</a>
+                    {% endif %}
+                    {% if page.pypi %}
+                        <a class="button small xtrasmall" href="{{ page.pypi }}">PyPi</a>
+                    {% endif %}
+                    {% if page.bugtracker %}
+                        <a class="button small xtrasmall" href="{{ page.bugtracker }}">Issue Tracker</a>
+                    {% endif %}
+                    {% if page.usergroup %}
+                        <a class="button small xtrasmall" href="{{ page.usergroup }}">Google Group</a>
+                    {% else %}
+                        <a class="button small xtrasmall" href="https://groups.google.com/forum/#!forum/disqus-opensource">Google Group</a>
+                    {% endif %}
+                </p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Libraries</h2>
+    <p>We have also open source several smaller libraries</p>
+    <ul class="projects">
+        {% for post in site.categories.code %}
+            {% unless post.categories contains "projects" %}
+                <li>
+                    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                    <div class="about">
+                        <p>{{ post.oneliner }}</p>
+                    </div>
+                </li>
+            {% endunless %}
+        {% endfor %}
+        <li>
+            <h3><a href="https://github.com/disqus/django-bitfield">django-bitfield</a></h3>
+            <div class="about">
+                <p>BIT data types in Django</p>
+            </div>
+        </li>
+        <li>
+            <h3><a href="https://github.com/disqus/django-modeldict">django-modeldict</a></h3>
+            <div class="about">
+                <p>Efficient storage for a model as a key/value store</p>
+            </div>
+        </li>
+    </ul>
+</div>
