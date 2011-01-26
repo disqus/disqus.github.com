@@ -13,7 +13,7 @@
             <link href="http://code.disqus.com{{ post.url }}"/>
             <updated>{{ post.date | date_to_xmlschema }}</updated>
             <id>id:{{ post.id | xml_escape }}</id>
-            <content type="html">{% if post.summary %}{{ post.summary | xml_escape }}{% else %}{{ post.content | strip_html | truncate: 300 | xml_escape }}{% endif %}</content>
+            <content type="html">{{ post.content | strip_html | truncate: 300 | xml_escape }}</content>
         </entry>
     {% endfor %}
 </feed>
