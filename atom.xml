@@ -12,7 +12,7 @@
             <title>{{ post.title | xml_escape }}</title>
             <link href="{{ post.actual_url }}"/>
             <updated>{{ post.date | date_to_xmlschema }}</updated>
-            <id>id:{{ post.id | xml_escape }}</id>
+            <id>{{ post.actual_url }}</id>
             <content type="html">{{ post.content | strip_html | truncate: 300 | xml_escape }}</content>
         </entry>
     {% endfor %}
