@@ -8,6 +8,8 @@
     <id>http://code.disqus.com/</id>
 
     {% for post in site.posts limit:10 %}
+      {% if post.categories contains "projects" %}
+      {% else %}
         <entry>
             <title>{{ post.title | xml_escape }}</title>
             <link href="{{ post.actual_url }}"/>
@@ -15,5 +17,6 @@
             <id>{{ post.actual_url }}</id>
             <content type="html">{{ post.content | strip_html | truncate: 300 | xml_escape }}</content>
         </entry>
+        {% endif %}
     {% endfor %}
 </feed>

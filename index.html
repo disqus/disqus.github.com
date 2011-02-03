@@ -9,6 +9,8 @@ section: blog
     <h1 class="heading">Recent Posts</h1>
     <ul class="post-list" id="post-list">
         {% for post in paginator.posts %}
+            {% if post.categories contains "projects" %}
+            {% else %}
             <li class="post" data-forum="{{ post.disqus_forum }}" data-link="{{ post.actual_url }}">
                 <div class="author">
                     <img src="http://disqus.com/api/users/avatars/{{ post.disqus_username }}.jpg" class="avatars" alt="{{ post.disqus_username }}"/>
@@ -27,6 +29,7 @@ section: blog
                 <div class="clear"></div>
                 <div id="disqus"><a class="dsq-comment-count" href="{{ post.actual_url }}#disqus_thread">View comments</a></div>
             </li>
+           {% endif %}
         {% endfor %}
     </ul>
 
