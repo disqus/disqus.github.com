@@ -1,0 +1,41 @@
+---
+layout: post
+title: Why I forked JSLint to JSHint
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2011/02/19/why-i-forked-jslint-to-jshint/
+summary:
+   <p><!-- JSHint Manifesto --></p>   <blockquote>   <p>Your sadly pathetic bleatings are harshing my mellow. &mdash;<a href="http://tech.groups.yahoo.com/group/jslint_com/message/1688">Douglas Crockford</a>.</p>   </blockquote>   <p>This Friday we released <a href="http://jshint.com/">JSHint</a>, a code quality tool designed to detect errors and potential problems in JavaScript code and to enforce your team&#8217;s coding conventions.<sup class="footnote"><a href="#fn1">1</a></sup></p>   <p>JSHint is a fork of <a href="http://jslint.com/">JSLint</a>, the tool written and maintained by Douglas Crockford. JSLint served me well for quite some time but in the past few months it has gotten uncomfortably opinionated and hostile towards your code. It is <a href="https://github.com/douglascrockford/JSLint/commits">quickly transforming</a> from a tool that helps developers to prevent bugs to a tool that makes sure you write your code like ...</p>
+---
+
+<p><!-- JSHint Manifesto --></p>
+<blockquote>
+<p>Your sadly pathetic bleatings are harshing my mellow. &mdash;<a href="http://tech.groups.yahoo.com/group/jslint_com/message/1688">Douglas Crockford</a>.</p>
+</blockquote>
+<p>This Friday we released <a href="http://jshint.com/">JSHint</a>, a code quality tool designed to detect errors and potential problems in JavaScript code and to enforce your team&#8217;s coding conventions.<sup class="footnote"><a href="#fn1">1</a></sup></p>
+<p>JSHint is a fork of <a href="http://jslint.com/">JSLint</a>, the tool written and maintained by Douglas Crockford. JSLint served me well for quite some time but in the past few months it has gotten uncomfortably opinionated and hostile towards your code. It is <a href="https://github.com/douglascrockford/JSLint/commits">quickly transforming</a> from a tool that helps developers to prevent bugs to a tool that makes sure you write your code like Douglas Crockford.</p>
+<p>Here is an example. Take a look at the code below and try to find a <strong>fatal error</strong>.</p>
+<div class="highlight"><pre><code class="javascript"><span class="cm">/*global jQuery */</span>
+
+<span class="c1">// Example taken from jQuery 1.4.2 source</span>
+<span class="nx">jQuery</span><span class="p">.</span><span class="nx">extend</span><span class="p">(&#123;</span>
+    <span class="cm">/* ... */</span>
+
+    <span class="nx">isEmptyObject</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">obj</span> <span class="p">)</span> <span class="p">&#123;</span>
+        <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span> <span class="p">)</span> <span class="p">&#123;</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">&#125;</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">&#125;</span>
+
+    <span class="cm">/* ... */</span>
+<span class="p">&#125;);</span>
+</code></pre>
+</div><p>Can&#8217;t see anything wrong with this snippet? Me neither. But JSLint refuses to proceed further, failing with an error that tells you to &#8220;move &#8216;var&#8217; declarations to the top of the function&#8221;. What is even worse, there is no way to turn this behavior off. You have to either rewrite your code or stop using JSLint.</p>
+<p>This is why you can go to any meetup or a conference, find a JavaScript developer who uses the language on a daily basis and chances are, you won&#8217;t find much love for Crockford&#8217;s creation<sup class="footnote"><a href="#fn2">2</a></sup> (his bitterness towards community feedback does not help either).</p>
+<p>And this is very sad because I believe in code quality tools and I think they are beneficial to the community. That&#8217;s why I started JSHint. And, as we were saying from the day zero, it will always be a community-driven tool. Simply because a community of programmers working together is better than a single person working alone. No matter who this person is.</p>
+<p><em>(Special thanks to <a href="http://paulirish.com/">Paul Irish</a>, <a href="http://nimbupani.com/">Divya Manian</a> and <a href="http://www.jamiegillar.com/">Jamie Gillar</a> for helping me with this project, and <a href="http://wonko.com/">Ryan Grove</a> for donating domains)</em></p>
+<div class="footnotes">
+<p class="footnote" id="fn1"><sup>1</sup> <a href="http://badassjs.com/post/3364925033/jshint-an-community-driven-fork-of-jslint">The first announcement</a> was published on Badass JavaScript weblog.</p>
+<p class="footnote" id="fn2"><sup>2</sup> Here I would like to <a href="http://brendaneich.com/2010/11/paren-free/">quote Brendan Eich</a>, creator of JavaScript: &ldquo;JSLint can suck it&rdquo;.<br />
+</div></p>
