@@ -5,7 +5,7 @@ disqus_username: bretthoerner
 disqus_forum: bretthoerner
 actual_url: http://bretthoerner.com/2011/2/21/redis-at-disqus
 summary:
-   <p>We've been running Redis in production for a bit over three months now on projects ranging from critical (paying premium users) to experimental (in-house). Just as Will at Bump was inspired by someone else, I was inspired by Will to do a write up on what we're up to. Our entire premium analytics service runs on Redis. These stats are, as you'd expect, time-based. In order to squeeze this problem into a key/value store, we just append date-string suffixes to the keys: &quot;comments_by_day:disqus:disqus:2011-01-01&quot;. If we split on &quot;:&quot; we have 4 pieces: the stat ...</p>
+   <p>We've been running Redis in production for a bit over three months now on projects ranging from critical (paying premium users) to experimental (in-house). Just as Will at Bump was inspired by someone else, I was inspired by Will to do a write up on what we're up to.         Our entire premium analytics service runs on Redis. These stats are, as you'd expect, time-based. In order to squeeze this problem into a key/value store, we just append date-string suffixes to the keys: &quot;comments_by_day:disqus:disqus:2011-01-01&quot;. If we split on &quot;:&quot; we have 4 pieces: the stat ...</p>
 ---
 
 <p>We've been running Redis in production for a bit over three months now on projects ranging from critical (paying premium users) to experimental (in-house). Just as <a href="http://devblog.bu.mp/how-we-use-redis-at-bump">Will at Bump</a> was inspired by someone else, I was inspired by Will to do a write up on what we're up to.</p>
