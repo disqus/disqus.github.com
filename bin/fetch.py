@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from feedreader.parser import from_url
+import bleach
 import cgi
 import codecs
 import datetime
@@ -23,6 +24,9 @@ FEEDS = (
 )
 
 # slugify, linebreaks, and truncate_html_words are from Django
+
+def strip_tags(value):
+    return bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em'], strip=True)
 
 def slugify(value):
     """
@@ -142,7 +146,7 @@ class FeedAggregator(object):
             'url': url,
             'slug': slug,
             'body': body,
-            'summary': truncate_html_words(body, 100).replace('\n', '   '),
+            'summary': truncate_html_words(linebreaks(strip_tags(body)), 100).replace('\n', '   '),
             'disqus_username': disqus_username,
             'date': date.strftime('%Y-%m-%d %H:%M:%S'),
         }
