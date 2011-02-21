@@ -32,7 +32,7 @@ def summarize(value):
     # remove paragraphs/linebreaks
     # value = re.sub(r'<\/?(br|p)>', '', value)
     value = bleach.clean(value, tags=[], strip=True)
-    value = value.replace('"', '&quot;')
+    value = value.replace('"', '')
     return '<p>%s</p>' % truncate_html_words(value, 100).replace('\n', '   ')
 
 def strip_tags(value):
