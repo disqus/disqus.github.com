@@ -25,8 +25,17 @@ FEEDS = (
 
 # slugify, linebreaks, and truncate_html_words are from Django
 
+def summarize(value):
+    # remove headings
+    r = re.compile(r'<(h[1-6])[^<]*>[^<]*<\/(h[1-6])[^<]*>', re.I)
+    value = r.sub('', value)
+    # remove paragraphs/linebreaks
+    # value = re.sub(r'<\/?(br|p)>', '', value)
+    value = bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em', 'cite'], strip=True)
+    return truncate_html_words(value, 100).replace('\n', '   ')
+
 def strip_tags(value):
-    return bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em'], strip=True)
+    return bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em', 'p', 'br', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code', 'cite', 'pre', 'blockquote'], strip=True)
 
 def slugify(value):
     """
@@ -145,8 +154,8 @@ class FeedAggregator(object):
             'title': title,
             'url': url,
             'slug': slug,
-            'body': body,
-            'summary': truncate_html_words(linebreaks(strip_tags(body)), 100).replace('\n', '   '),
+            'body': strip_tags(body),
+            'summary': summarize(body),
             'disqus_username': disqus_username,
             'date': date.strftime('%Y-%m-%d %H:%M:%S'),
         }
