@@ -31,8 +31,9 @@ def summarize(value):
     value = r.sub('', value)
     # remove paragraphs/linebreaks
     # value = re.sub(r'<\/?(br|p)>', '', value)
-    value = bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em', 'cite'], strip=True)
-    return truncate_html_words(value, 100).replace('\n', '   ')
+    value = bleach.clean(value, tags=[], strip=True)
+    value = value.replace('"', '&quot;')
+    return '<p>%s</p>' % truncate_html_words(value, 100).replace('\n', '   ')
 
 def strip_tags(value):
     return bleach.clean(value, tags=['a', 'b', 'strong', 'i', 'em', 'p', 'br', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code', 'cite', 'pre', 'blockquote'], strip=True)
