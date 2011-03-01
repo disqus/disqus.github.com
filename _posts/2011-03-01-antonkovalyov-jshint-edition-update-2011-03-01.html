@@ -1,0 +1,68 @@
+---
+layout: post
+title: JSHint Edition Update: 2011-03-01
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2011/03/01/jshint-edition-update/
+summary:
+   "<p>Today we released 2011-03-01 edition of JSHint, a community-driven code quality tool. This is the first release since the announcement and so far the community feedback has been nothing but helpful.   I would like to personally thank the following contributors for providing patches that were included in this edition: sconover, schuyler1d and mbulman. I would also like to thank all the people who contributed by telling us what needs to be changed. Not all requests were included in this release but we’re making good progress so stay tuned for future releases.      Three new options were added:      	jquery: Assume jQuery ...</p>"
+---
+
+<p>Today we released 2011-03-01 edition of <a href="http://jshint.com/">JSHint</a>, a community-driven code quality tool. This is the first release since the <a href="http://badassjs.com/post/3364925033/jshint-an-community-driven-fork-of-jslint">announcement</a> and so far the community feedback has been nothing but helpful.</p>
+<p>I would like to personally thank the following contributors for providing patches that were included in this edition: <a href="https://github.com/sconover">sconover</a>, <a href="https://github.com/schuyler1d">schuyler1d</a> and <a href="https://github.com/mbulman">mbulman</a>. I would also like to thank all the people who contributed by telling us <a href="https://github.com/jshint/jshint/issues">what needs to be changed</a>. Not all requests were included in this release but we’re making good progress so stay tuned for future releases.</p>
+<h4>Changelog</h4>
+<p>Three new options were added:</p>
+
+	<strong>jquery</strong>: Assume <a href="http://jquery.com/">jQuery</a> globals.
+	<strong>couch</strong>: Assume <a href="http://couchdb.apache.org/">CouchDB</a> globals.
+	<strong>asi</strong>: Tolerate the use of automatic semicolon insertion. ASI is one of the most controversial synctatic features and it is somewhat scary until you actually understand it. To use it or not is a matter of personal preference. Here is a good article that will help you to make an informed decision: <a href="http://inimino.org/~inimino/blog/javascript_semicolons">JavaScript Semicolon Insertion</a>.
+
+<p>New globals were added to the <code>browser</code> option: localStorage, applicationCache, openDatabase, Worker, WebSocket and FileReader.</p>
+<p>In the boss mode (<code>boss:true</code>), JSHint will not complain about the <code>== null</code> relation. As the name suggests, use that mode only if you know what you’re doing. Here is a nice article about coercion rules in JavaScript: <a href="http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/">Truth, Equality and JavaScript</a>.</p>
+<p>JSHint behavior towards operators <code>typeof</code> and <code>delete</code> was changed. As <a href="https://github.com/GarrettS">GarretS</a> noted in <a href="https://github.com/jshint/jshint/issues/25">the ticket</a>, those operators accept a reference. If, during evaluation, the base object of that reference is null, the result is not a runtime error.</p>
+<p>Added support for the pattern of using <code>undefined</code> as a formal parameter. This is a pretty popular pattern used by libraries like jQuery.</p>
+<pre><code>(function (window, document, undefined) {
+    // undefined will be undefined here even if there is
+    //   var undefined = 'hello';
+    // somewhere in the global scope
+}(this, this.document));
+</code></pre>
+<p>JSHint now recognizes <code>new Array(&lt;expr&gt;)</code> as a valid expression. Expression <code>new Array();</code> will still generate a warning because you should really use [] instead.</p>
+<p>Added support for providing options to JSHint as command line arguments when used with our Rhino wrapper.</p>
+<p>Added support for the explicit case statement fallthroughs. More often than not such fallthrough is unintentional and may lead to difficult bugs. And that’s why JSHint complains about it. But when you explicitly want to use that, you can keep JSHint happy by using special comments.</p>
+<pre><code>// JSHint will complain about this code:
+switch (foo) {
+case 1:
+    doSomethingFirst();
+case 2:
+    doSomething();
+}
+
+// But it won't complain about this code because we explicitly stated our intention:
+switch (foo) {
+case 1:
+    doSomethingFirst();
+    /* falls through */
+case 2:
+    doSomething();
+}
+</code></pre>
+<p>Added third formal parameter to the JSHINT function that allows you to provide a hash of pre-defined globals without using <code>/*global ... */</code> comments.</p>
+<pre><code>JSHINT(code, options, { myGlobal: false, anotherGlobal: false /*, ... */ });
+</code></pre>
+<p><a href="https://github.com/brentlintner">Brent Lintner</a> created and maintains an official CLI and NPM package for JSHint: <a href="https://github.com/jshint/node-jshint">node-jshint</a>. If you have NPM installed, just run <code>npm install jshint</code>. After the package is installed, you will be able to use jshint from your command line:</p>
+<pre><code>$ jshint ~/code/jshint/jshint.js
+Lint Free!
+</code></pre>
+<h4>Plugins</h4>
+<p>People wrote plugins for their favorite text editors and that is awesome.</p>
+
+	<a href="https://github.com/wookiehangover/jshint.vim">VIM plugin</a> by wookiehangover.
+	<a href="https://github.com/bpierre/jshint.tmbundle">TextMate bundle</a> by bpierre.
+	<a href="https://github.com/Kilian/gedit-jshint">gedit plugin</a> by Kilian.
+
+<p>If you wrote a plugin, let me know and I will update this post. We will also have that information on JSHint’s home page soon.</p>
+<h4>Roadmap</h4>
+<p>We will continue working on your <a href="https://github.com/jshint/jshint/issues">requests</a>. If you want something to be implemented sooner, vote the appropriate ticket up or consider sending a patch.</p>
+<p>We also plan to make some cool changes to the website so that developers could read more information about each option and make an informed decision on whether they want to use it or not.</p>
+<p>And that’s it for this release. Thanks again for all your support!</p>
