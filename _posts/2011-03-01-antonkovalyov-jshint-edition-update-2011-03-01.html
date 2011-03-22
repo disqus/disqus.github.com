@@ -27,6 +27,7 @@ summary:
     // somewhere in the global scope
 }(this, this.document));
 </code></pre>
+
 <p>JSHint now recognizes <code>new Array(&lt;expr&gt;)</code> as a valid expression. Expression <code>new Array();</code> will still generate a warning because you should really use [] instead.</p>
 <p>Added support for providing options to JSHint as command line arguments when used with our Rhino wrapper.</p>
 <p>Added support for the explicit case statement fallthroughs. More often than not such fallthrough is unintentional and may lead to difficult bugs. And that’s why JSHint complains about it. But when you explicitly want to use that, you can keep JSHint happy by using special comments.</p>
@@ -47,13 +48,16 @@ case 2:
     doSomething();
 }
 </code></pre>
+
 <p>Added third formal parameter to the JSHINT function that allows you to provide a hash of pre-defined globals without using <code>/*global ... */</code> comments.</p>
 <pre><code>JSHINT(code, options, { myGlobal: false, anotherGlobal: false /*, ... */ });
 </code></pre>
+
 <p><a href="https://github.com/brentlintner">Brent Lintner</a> created and maintains an official CLI and NPM package for JSHint: <a href="https://github.com/jshint/node-jshint">node-jshint</a>. If you have NPM installed, just run <code>npm install jshint</code>. After the package is installed, you will be able to use jshint from your command line:</p>
 <pre><code>$ jshint ~/code/jshint/jshint.js
 Lint Free!
 </code></pre>
+
 <h4>Plugins</h4>
 <p>People wrote plugins for their favorite text editors and that is awesome.</p>
 

@@ -49,6 +49,7 @@ if (!DISQUS.json.stringify || !DISQUS.json.parse) {
   // Use JSON2.js
 }
 </code></pre>
+
 <p>The code works fine until it hits the page where developers thought it was a good idea to make <code>Array.toJSON</code> act as a shortcut to <code>JSON.stringify</code>, or to corrupt <code>toJSON</code> method in some other way<a href="#fn2">2</a>. That matters because JSON2.js follows the specification and tries to use <code>toJSON</code> method whenever possible.</p>
 <p>For that kind of situations, we have to add additional check to detect when <code>toJSON</code> is corrupted:</p>
 <pre><code>var arr = [1,2,3], corrupted;
@@ -58,6 +59,7 @@ if (typeof arr.toJSON === "function") {
     corrupted = !(arr &amp;&amp; arr.length == 3 &amp;&amp; arr[2] == 3);
 }
 </code></pre>
+
 <p>This code tests only arrays but it should be pretty straightforward to test generic objects as well. And if you have any similar stories or interesting tricks, please share.</p>
 
 <p>1 <a href="http://twitter.com/#!/antonkovalyov/status/12997108147687424">This tweet</a> to the easyXDM maintainer is the only announcement as far as I know.</p>
@@ -66,5 +68,6 @@ if (typeof arr.toJSON === "function") {
     return new JSONConverter();
 };
 </code></pre>
+
 <br>
 <p></p>
