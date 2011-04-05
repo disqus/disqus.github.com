@@ -1,0 +1,99 @@
+---
+layout: post
+title: "Cross-domain quirks in IE8"
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2011/04/05/cross-domain-quirks-in-ie8/
+summary:
+   "<p>Eliminate all other factors, and the one which remains must be the truth. —Sherlock Holmes      For the past couple of days, I have had to deal with a couple of fascinating issues reproducible only in Internet Explorer 8 (I used IE9 with compatibility mode).      Let’s say you have two pages—hosted on example.com and sub.example.com—and the latter opens the former in an iframe. You also want the iframed page to communicate with its parent by calling a callback using window.parent.callback().   sub.example.com:   &lt;!DOCTYPE html&gt;      &lt;html&gt;     &lt;head&gt;       &lt;script&gt;         document.domain = 'example.com';            function ...</p>"
+---
+
+<blockquote>
+<p>Eliminate all other factors, and the one which remains must be the truth. —Sherlock Holmes</p>
+</blockquote>
+<p>For the past couple of days, I have had to deal with a couple of fascinating issues reproducible only in Internet Explorer 8 (I used IE9 with compatibility mode).</p>
+<h4>Issue 1. Permission Denied when trying access window.parent.</h4>
+<p>Let’s say you have two pages—hosted on <strong>example.com</strong> and <strong>sub.example.com</strong>—and the latter opens the former in an iframe. You also want the iframed page to communicate with its parent by calling a callback using <code>window.parent.callback()</code>.</p>
+<p><strong>sub.example.com:</strong></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script&gt;
+      document.domain = 'example.com';
+
+      function callback() {
+          /* ... */
+      }
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;iframe src="http://example.com/"&gt;&lt;/iframe&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><strong>example.com:</strong></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+  &lt;script&gt;
+    document.domain = 'example.com';
+    window.parent.callback();
+  &lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>The code above works fine in Chrome, Firefox, Opera and Internet Explorer 9. However, IE8 raises a Permission Denied error when the child page is trying to communicate with its parent. Removing the document.domain part from the child doesn’t fix the issue and doesn’t make a lot of sense since both parties must opt into the same domain to communicate with each other.</p>
+<p>The only hint I had was the fact that we had already implemented a working cross-domain tunnel using a similar technique elsewhere. So, by eliminating all the differences, I found out that due to some mysterious bug, Internet Explorer 8 does not allow a top level domain to communicate with its subdomain. Using <strong>alias.example.com</strong> (or any other alias) instead of <strong>example.com</strong> fixes the issue.</p>
+<h4>Issue 2. Wrong origin in the postMessage event.</h4>
+<p>Another thing we noticed is that <a href="http://easyxdm.net/">easyXDM</a>—our cross-domain messaging library of choice—refused to pass messages back to the parent page but only after the child page sent at least one AJAX request. As soon as you made a request, easyXDM would start to silently fail at passing messages.</p>
+<p>It took me a few <code>debugger</code> statements and <code>console.log</code> calls to find that the problem was in the code below (modified to fit the page):</p>
+<pre><code>/**
+ * Resolves the origin from the event object
+ * @private
+ * @param {Object} event The messageevent
+ * @return {String} The scheme, host and port of the origin
+ */
+function _getOrigin(event){
+    if (event.origin) {
+        // This is the HTML5 property
+        return event.origin;
+    }
+    if (event.uri) {
+        // From earlier implementations
+        return getLocation(event.uri);
+    }
+    if (event.domain) {
+        // This is the last option and will fail if the
+        // origin is not using the same schema as we are
+        return location.protocol + "//" + event.domain;
+    }
+    throw "Unable to retrieve the origin of the event";
+}
+
+/**
+ * This is the main implementation for the onMessage event.&lt;br/&gt;
+ * It checks the validity of the origin and passes the message on if appropriate.
+ * @private
+ * @param {Object} event The messageevent
+ */
+function _window_onMessage(event){
+    var origin = _getOrigin(event);
+    if (origin == targetOrigin &amp;&amp;
+        event.data.substring(0, config.channel.length + 1) == \
+        config.channel + " ") {
+        pub.up.incoming(event.data.substring(config.channel.length + 1), origin);
+    }
+}
+</code></pre>
+
+<p>The problem was with IE8 using <code>document.domain</code> value as the origin for all postMessage events after the first AJAX request. Since it was not the case in all other major browsers, including the current version of Internet Explorer, I assumed it was an IE8 browser bug.</p>
+<p>To fix that, I was thinking about passing all valid origins to easyXDM, but then I saw <a href="http://twitter.com/jakobo/status/54006334437339137">a tweet</a> by <a href="http://twitter.com/jakobo">@jakobo</a> that said, “If window.postMessage in IE8 is the disease, you should know that window.setTimeout is the cure.” And he was right: wrapping callbacks in <code>setTimeout</code> rolls the postMessage origin property back to what it is supposed to be.</p>
+<h4>TL;DR</h4>
+
+	To solve a Permission Denied problem when communicating from <strong>example.com</strong> to <strong>sub.example.com</strong> using <code>window.parent</code>, use subdomain alias for <strong>example.com</strong>.
+	To make sure you always have the correct postMessage origin value for your cross-domain messages, wrap them in <code>setTimeout</code>.
+
+<p><strong>Thanks</strong> to <a href="http://www.kimskitchensink.com/">Kim Weisberg</a> for editing drafts of this.</p>
