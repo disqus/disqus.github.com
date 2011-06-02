@@ -1,0 +1,67 @@
+---
+layout: post
+title: "JavaScript Libraries Statistics"
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2011/06/02/disqus-js-libs-stats/
+summary:
+   "<p>A couple of weeks ago we started gathering data about the use of popular JavaScript libraries across our network and yesterday we did an analysis of a sample of slightly over a hundred thousands websites. The results are available below.      For about two weeks 2% of Disqus instances were sending back information about the popular libraries installed on the page. Here is the code we used to check for libraries and their versions:   var jquery   = window.jQuery &amp;&amp; jQuery().jquery;   var jqueryui = window.jQuery &amp;&amp; jQuery.ui &amp;&amp; jQuery.ui.version;   var protojs  = window.Prototype &amp;&amp; Prototype.Version;   var dojo     = window.dojo &amp;&amp; dojo.version ...</p>"
+---
+
+<p>A couple of weeks ago we started gathering data about the use of popular JavaScript libraries across our network and yesterday we did an analysis of a sample of slightly over a hundred thousands websites. The results are available below.</p>
+<h4>Methodology</h4>
+<p>For about two weeks 2% of Disqus instances were sending back information about the popular libraries installed on the page. Here is the code we used to check for libraries and their versions:</p>
+<pre><code>var jquery   = window.jQuery &amp;&amp; jQuery().jquery;
+var jqueryui = window.jQuery &amp;&amp; jQuery.ui &amp;&amp; jQuery.ui.version;
+var protojs  = window.Prototype &amp;&amp; Prototype.Version;
+var dojo     = window.dojo &amp;&amp; dojo.version.toString();
+var mootools = window.MooTools &amp;&amp; MooTools.version;
+var ext      = window.Ext &amp;&amp; Ext.version;
+var yui      = window.YUI &amp;&amp; YUI.version;
+</code></pre>
+
+<p>Also keep in mind that the majority of websites that install Disqus are blogs, online magazines and other publications. For example, these stats could be very different among web apps.</p>
+<h4>Results</h4>
+<p><strong>Libraries:</strong></p>
+<p>(Libraries other than jQuery, MooTools and Prototype had less 0.01%)<br>
+</p>
+<p><strong>jQuery versions:</strong><br>
+</p>
+
+    google.load('visualization', '1', { 'packages': [ 'corechart' ] });
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('number', 'Percentage');
+
+        data.addRows([
+            ['jQuery',    66.46],
+            ['MooTools',   2.76],
+            ['Prototype',  1.28],
+            ['Other',      0.09],
+            ['None',      29.36]
+        ]);
+
+        var chart = new google.visualization.PieChart(document.getElementById('libs'));
+        chart.draw(data, {width: 400, height: 240});
+
+        data = new google.visualization.DataTable();
+        data.addColumn('string', 'Version');
+        data.addColumn('number', 'Hits');
+
+        data.addRows([
+            ['1.4', 47799],
+            ['1.3', 9971],
+            ['1.5', 3979],
+            ['1.6', 3917],
+            ['Other', 4760]
+        ]);
+
+        chart = new google.visualization.PieChart(document.getElementById('jquery'));
+        chart.draw(data, {width: 400, height: 240});
+    }
+<h4>What’s Next</h4>
+<p>We will probably do more surveys in the future about some non-general purpose libraries like Modernizr, etc. Stay tuned.</p>
+<p><strong>Thanks</strong> to <a href="http://www.kimskitchensink.com/">Kim Weisberg</a> for editing drafts of this.</p>
