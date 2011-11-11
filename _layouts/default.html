@@ -2,25 +2,26 @@
 engineers:
    - Jason
    - antonkovalyov
-   - bretthoerner
    - benvinegar
    - zeeg
    - dz
    - sugarc0de
    - gjcourt
+   - ohlol
+   - dctrwatson
 ---
-<!DOCTYPE html> 
-<html> 
-<head> 
-    <link rel="shortcut icon" href="http://mediacdn.disqus.com/1291160803/img/favicon.ico" type="image/vnd.microsoft.icon" /> 
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-    <title>DISQUS Code - {{ page.title }}</title> 
-    
-    <link href="http://mediacdn.disqus.com/1291160803/css/base.css" type="text/css" rel="stylesheet" /> 
-    <link href="http://mediacdn.disqus.com/1291160803/css/dashboard.css" type="text/css" rel="stylesheet" /> 
-    <link href="/css/global.css" type="text/css" rel="stylesheet" /> 
-    
-    <script type="text/javascript" charset="utf-8"> 
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="http://mediacdn.disqus.com/1291160803/img/favicon.ico" type="image/vnd.microsoft.icon" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>DISQUS Code - {{ page.title }}</title>
+
+    <link href="http://mediacdn.disqus.com/1291160803/css/base.css" type="text/css" rel="stylesheet" />
+    <link href="http://mediacdn.disqus.com/1291160803/css/dashboard.css" type="text/css" rel="stylesheet" />
+    <link href="/css/global.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript" charset="utf-8">
         if (window.context === undefined) {
             var context = {};
         }
@@ -32,7 +33,7 @@ engineers:
         context.apiUrl = context.disqusUrl + '/api/3.0/';
         context.mediaUrl = 'http://mediacdn.disqus.com/1291936940';
         context.apiPublicKey = 'nVV8IwJiiwupZMqyr9Giae6zKMOb0DIhw6ejfTV1rIgZYAP66MvvYrUdbVTobFfJ';
-        
+
         context.urlMap = {
             'features': 'http://disqus.com/features/',
             'explore': 'http://disqus.com/explore/',
@@ -88,46 +89,46 @@ engineers:
         // Disqus Embed settings
         var disqus_shortname = 'disqus';
     </script>
-    
+
     <script src="http://mediacdn.disqus.com/1291160803/js/src/lib/jquery.js" type="text/javascript"></script>
-    <script src="http://mediacdn.disqus.com/1291936940/build/system/sdk.js" type="text/javascript" charset="utf-8"></script> 
-    <script src="http://mediacdn.disqus.com/1291936940/js/dist/base.js" type="text/javascript" charset="utf-8"></script> 
+    <script src="http://mediacdn.disqus.com/1291936940/build/system/sdk.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://mediacdn.disqus.com/1291936940/js/dist/base.js" type="text/javascript" charset="utf-8"></script>
     <script src="http://mediacdn.disqus.com/1291936940/js/src/global.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/global.js" type="text/javascript" charset="utf-8"></script>
-</head> 
-<body> 
-    <div id="header"> 
-        <div id="global-nav"> 
-            <div class="container"> 
-                <ul> 
-                    <li><a href="http://disqus.com/about/">About</a></li> 
-                    <li><a href="http://docs.disqus.com/">Help</a></li> 
-                    <li><a href="http://blog.disqus.com/">Blog</a></li> 
-                </ul> 
-            </div> 
-        </div> 
-        <div id="local-nav"> 
-            <div class="container"> 
+</head>
+<body>
+    <div id="header">
+        <div id="global-nav">
+            <div class="container">
+                <ul>
+                    <li><a href="http://disqus.com/about/">About</a></li>
+                    <li><a href="http://docs.disqus.com/">Help</a></li>
+                    <li><a href="http://blog.disqus.com/">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="local-nav">
+            <div class="container">
                 <a href="http://code.disqus.com/" id="logo"><img src="http://mediacdn.disqus.com/1291160803/img/disqus-logo.png" alt="DISQUS" title="Disqus - Discover your community"/> CODE</a>
-                
-                <ul id="account-nav"> 
+
+                <ul id="account-nav">
                     <li{% if page.section == 'blog' %} class="selected"{% endif %}><a href="/">Blog</a></li>
                     <li{% if page.section == 'code' %} class="selected"{% endif %}><a href="/code/">Open Source</a></li>
                     <li{% if page.section == 'technology' %} class="selected"{% endif %}><a href="/technology/">Technology</a></li>
                     <li{% if page.section == 'presentations' %} class="selected"{% endif %}><a href="http://lanyrd.com/search/?q=disqus">Presentations</a></li>
-                </ul> 
-                
-            </div> 
-        </div> 
-    </div> 
-    
-    <div id="content"> 
-        <div class="container"> 
-            <div id="code" class="box clearfix"> 
-                <div class="secondary"> 
-                    <ul id="sidebar"> 
-                        <li class="module"> 
-                            <h3>The Engineers</h3> 
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="container">
+            <div id="code" class="box clearfix">
+                <div class="secondary">
+                    <ul id="sidebar">
+                        <li class="module">
+                            <h3>The Engineers</h3>
                             <ul class="people">
                                 {% for username in page.engineers %}
                                     <li>
@@ -139,7 +140,7 @@ engineers:
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="module"> 
+                        <li class="module">
                             <h3>Open Source <a href="/code/" class="button small xtrasmall">More</a></h3>
                             <ul class="projects">
                                 {% for post in site.categories.projects %}
@@ -155,50 +156,50 @@ engineers:
                         <li class="banner">
                           <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array' title='JavaScript Array length'><img src='http://static.jsconf.us/promotejsh.gif' height='150' width='180' alt='JavaScript Array length'/></a>
                         </li>
-                    </ul> 
-                </div> 
-                <div class="primary"> 
+                    </ul>
+                </div>
+                <div class="primary">
                     {{ content }}
-                </div> 
-            </div> 
-        </div> 
-    </div> 
-    
-    <div id="footer"> 
-        <div class="container"> 
-            <p class="copyright">Copyright 2007-2010 &middot; <a href="/"class="disqus">DISQUS</a></p> 
-            <ul> 
-                <li><a href="http://disqus.com/about/">About</a></li> 
-                <li><a href="http://disqus.com/features/">Features</a></li> 
-                <li><a href="http://disqus.com/explore/">Explore</a></li> 
-                <li><a href="http://disqus.com/addons/">Add-ons</a></li> 
-                <li><a href="http://docs.disqus.com">Help</a></li> 
-                <li><a href="http://blog.disqus.com">Blog</a></li> 
-                <li><a href="http://disqus.com/api/">API</a></li> 
-                <li><a href="http://disqus.com/jobs/">Jobs</a></li> 
-                <li><a href="http://docs.disqus.com/kb/terms-and-policies/">Terms and Policies</a></li> 
-            </ul> 
-        </div> 
-    </div> 
-        <!-- Start Quantcast tag --> 
-        <script type="text/javascript"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="copyright">Copyright 2007-2010 &middot; <a href="/"class="disqus">DISQUS</a></p>
+            <ul>
+                <li><a href="http://disqus.com/about/">About</a></li>
+                <li><a href="http://disqus.com/features/">Features</a></li>
+                <li><a href="http://disqus.com/explore/">Explore</a></li>
+                <li><a href="http://disqus.com/addons/">Add-ons</a></li>
+                <li><a href="http://docs.disqus.com">Help</a></li>
+                <li><a href="http://blog.disqus.com">Blog</a></li>
+                <li><a href="http://disqus.com/api/">API</a></li>
+                <li><a href="http://disqus.com/jobs/">Jobs</a></li>
+                <li><a href="http://docs.disqus.com/kb/terms-and-policies/">Terms and Policies</a></li>
+            </ul>
+        </div>
+    </div>
+        <!-- Start Quantcast tag -->
+        <script type="text/javascript">
         _qoptions={
         qacct:"p-94WKwgUwZHlfo"
         };
-        </script> 
-        <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script> 
-        <noscript> 
+        </script>
+        <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+        <noscript>
         <img src="http://pixel.quantserve.com/pixel/p-94WKwgUwZHlfo.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
-        </noscript> 
-        <!-- End Quantcast tag --> 
-        <script type="text/javascript"> 
+        </noscript>
+        <!-- End Quantcast tag -->
+        <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
         document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-        </script> 
-        <script type="text/javascript"> 
+        </script>
+        <script type="text/javascript">
         try {
         var pageTracker = _gat._getTracker("UA-1410476-6");
         pageTracker._trackPageview();
-        } catch(err) {}</script> 
-</body> 
+        } catch(err) {}</script>
+</body>
 </html>
