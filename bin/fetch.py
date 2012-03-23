@@ -19,7 +19,6 @@ FEEDS = (
     ('zeeg', 'davidcramer', 'http://justcramer.com/feeds/disqus.xml'),
     ('dz', 'nodnod', 'http://blog.nodnod.net/tagged/disqus/rss'),
     # ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
-    ('bretthoerner', 'bretthoerner', 'http://bretthoerner.com/tags/disqus/feed.atom'),
     ('antonkovalyov', 'self', 'http://anton.kovalyov.net/disqus.xml'),
 )
 
@@ -128,28 +127,28 @@ class FeedAggregator(object):
             slug = '%s-%s' % (author, slugify(unicode(entry.title)))
             self.write(author, forum, entry.link, entry.title,
                        entry.description, entry.published, slug)
-    
+
     def write(self, disqus_username, disqus_forum, url, title, body, date=None, slug=None):
         if not url:
             return
-        
+
         print "Saving", url
 
         if not date:
             date = datetime.datetime.now()
-        
+
         filename = date.strftime('%Y-%m-%d-%%s.html') % slug
-        
+
         outfile = codecs.open(os.path.join(os.path.dirname(__file__), '..', '_posts', filename), 'wb', 'utf-8')
-        
+
         template = open(os.path.join(os.path.dirname(__file__), '..', '_templates', 'post.html'), 'r').read()
-        
+
         if not body.startswith('<'):
             body = linebreaks(body)
-            
+
         body = body.replace('{', '&#123;')\
                    .replace('}', '&#125;')
-        
+
         data = {
             'disqus_forum': disqus_forum,
             'title': title,
@@ -160,7 +159,7 @@ class FeedAggregator(object):
             'disqus_username': disqus_username,
             'date': date.strftime('%Y-%m-%d %H:%M:%S'),
         }
-        
+
         outfile.write(template % data)
         outfile.close()
 
