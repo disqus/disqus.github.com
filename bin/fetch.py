@@ -20,6 +20,7 @@ FEEDS = (
     ('dz', 'nodnod', 'http://blog.nodnod.net/tagged/disqus/rss'),
     # ('disqus', 'disqus', 'http://blog.disqus.com/tagged/dev/rss'),
     ('antonkovalyov', 'self', 'http://anton.kovalyov.net/disqus.xml'),
+    ('dctrwatson', 'dctrwatson', 'http://www.dctrwatson.com/feed/'),
 )
 
 # slugify, linebreaks, and truncate_html_words are from Django
