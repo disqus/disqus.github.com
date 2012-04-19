@@ -1,0 +1,11 @@
+---
+layout: post
+title: "limits.conf and daemons on Ubuntu"
+disqus_username: dctrwatson
+disqus_forum: dctrwatson
+actual_url: http://www.dctrwatson.com/2012/03/limits-conf-and-daemons-on-ubuntu/
+summary:
+   "<p>I recently was setting up a couple ElasticSearch and RabbitMQ instances when I noticed RabbitMQ was still reporting an abysmally low fd limit in its log file at startup. I double checked my /etc/security/limits.conf and sure enough, limits were properly set to 64000. Yet for some reason it was still only seeing a max of [...]</p>"
+---
+
+<p>I recently was setting up a couple ElasticSearch and RabbitMQ instances when I noticed RabbitMQ was still reporting an abysmally low fd limit in its log file at startup. I double checked my /etc/security/limits.conf and sure enough, limits were properly set to 64000. Yet for some reason it was still only seeing a max of [...]</p>

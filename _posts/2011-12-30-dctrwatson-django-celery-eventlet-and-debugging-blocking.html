@@ -1,0 +1,11 @@
+---
+layout: post
+title: "django-celery, eventlet and debugging blocking"
+disqus_username: dctrwatson
+disqus_forum: dctrwatson
+actual_url: http://www.dctrwatson.com/2011/12/django-celery-eventlet-and-debugging-blocking/
+summary:
+   "<p>I recently wrote a couple Celery tasks that are purely IO bound. So instead of using the default multiprocessing execution pool, I used the Eventlet execution pool. With just a small change in Celery settings, I was off to the races. Wrong! After some amount of time, it just sits at 100% CPU and no [...]</p>"
+---
+
+<p>I recently wrote a couple Celery tasks that are purely IO bound. So instead of using the default multiprocessing execution pool, I used the Eventlet execution pool. With just a small change in Celery settings, I was off to the races. Wrong! After some amount of time, it just sits at 100% CPU and no [...]</p>

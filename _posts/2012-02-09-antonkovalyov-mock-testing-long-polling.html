@@ -1,0 +1,178 @@
+---
+layout: post
+title: "Mock testing long polling"
+disqus_username: antonkovalyov
+disqus_forum: self
+actual_url: http://anton.kovalyov.net/2012/02/09/mock-testing-long-polling/
+summary:
+   "<p>Yesterday, I asked Twitter if anyone knew how to mock long polling requests. The projet I’m working on uses these types of requests quite extensively, and I need a good way to test them.        Q: In JavaScript, how would you mock a long poll?— Anton Kovalyov (@valueof)     February 8, 2012      The replies came back negative—people are mocking their XHRs with libraries like SinonJS, but not long polling XHRs. So I decided to take a shot and mock the XMLHttpRequest object myself. It worked out and is now commited to the Disqus master, so I have a few minutes ...</p>"
+---
+
+<p>Yesterday, I asked Twitter if anyone knew how to mock <a href="http://en.wikipedia.org/wiki/Comet_(programming)#Ajax_with_long_polling">long polling requests</a>. The projet I’m working on uses these types of requests quite extensively, and I need a good way to test them.</p>
+<blockquote>
+  <p>Q: In JavaScript, how would you mock a long poll?</p><p>— Anton Kovalyov (@valueof)<br>
+  <a href="https://twitter.com/valueof/status/167355932878188544">February 8, 2012</a></p>
+</blockquote>
+<p>The replies came back negative—people are mocking their XHRs with libraries like <a href="http://sinonjs.org/">SinonJS</a>, but not long polling XHRs. So I decided to take a shot and mock the XMLHttpRequest object myself. It worked out and is now commited to the Disqus master, so I have a few minutes to share my solution here.</p>
+<p>First, here’s an annotated version of code I’m trying to test:</p>
+<pre><code>poll: function (frequency) {
+    var self = this;
+    frequency = frequency || 1000;
+
+    var xhr  = new XMLHttpRequest();
+    var url  = 'http://localhost:8888/poll/';
+
+    xhr.open('GET', url, true);
+    xhr.send();
+
+    var len = 0;
+    var interval = setInterval(function () {
+        // If connection was closed, abort it on our end and open
+        // a new one.
+        if (xhr.readyState == 4) {
+            xhr.abort();
+            clearInterval(interval);
+            return void self.poll();
+        }
+
+        // Do nothing if the server didn't push anything new.
+        if (len === xhr.responseText.length)
+            return;
+
+        _.each(xhr.responseText.slice(len).split('\n'), function (obj) {
+            var data;
+
+            try {
+                // Server returns a list of JSON objects, one per line.
+                data = JSON.parse(obj);
+            } catch (exc) {
+                // Server returned invalid response, ignore it.
+                return;
+            }
+
+            if (!isValid(data))
+                return;
+
+            // Add new comments to the queue.
+            queue.add({
+                id:       data.id,
+                message:  data.message
+            });
+        });
+
+        len = xhr.responseText.length;
+    }, frequency);
+}
+</code></pre>
+
+<p>This is pretty straightforward code that opens and holds a connection with a local server while constantly checking to see if there’re new data available. As you can seem, there are a few rules we use to filter incoming data, and I wanted my tests to cover them as well as the generic case where everything is fine. Plus, to be as close to the reality as possible, I’d like the mock in the tests to push data in chunks with a tiny delay in between.</p>
+<p>Now all I need to do is to write a small library that acts as an XMLHttpRequest instance with a long polling request but without actually making a request. I want to provide it an array of items that I’d like to be “pushed” from the server and tell it how often it should release those chunks. The final implementation came out pretty simple:</p>
+<pre><code>var mockLongPollingRequest = function (opts) {
+    var UNSENT           = 0;
+    var OPENED           = 1;
+    var HEADERS_RECEIVED = 2;
+    var LOADING          = 3;
+    var DONE             = 4;
+
+    var data = opts.data;
+    var freq = opts.frequency;
+
+    var MockHTTPRequest = function () {
+        this.status       = null;
+        this.statustText  = null;
+        this.readyState   = UNSENT;
+        this.responseText = '';
+    };
+
+    MockHTTPRequest.prototype.open = function (method, url, async) {
+        this.readyState = OPENED;
+        if (opts.onOpen)
+            opts.onOpen(method, url, async);
+    };
+
+    MockHTTPRequest.prototype.send = function () {
+        var self = this;
+
+        self.readyState = LOADING;
+        self.status = 200;
+        self.statusText = '200 OK';
+
+        var update;
+        function updateResponseText() {
+            if (data.length === 0) {
+                self.readyState = DONE;
+                clearInterval(update);
+            }
+
+            self.responseText += '\n' + data.shift();
+        }
+
+        update = setInterval(updateResponseText, freq);
+    };
+
+    MockHTTPRequest.prototype.abort = function () {
+        this.readyState = DONE;
+    };
+
+    return MockHTTPRequest;
+};
+</code></pre>
+
+<p>You might have noticed that MockHTTPRequest doesn’t implement the complete XMLHttpRequest API. This is intentional—since it’s a mock object I don’t really need full API support: just the methods and properties used by the code I’m testing.</p>
+<p>Using this little mock object is easy: just provide the data and frequency, and swap the native XMLHttpRequest with an object returned by the generator. Here’s an example of using MockHTTPRequest with the <a href="http://hirojs.com/">Hiro</a> testing library that we use at Disqus:</p>
+<pre><code>hiro.module('XHRTest', {
+
+    // ...
+    // A couple of other methods such as onTest and waitFor making sure
+    // that the code is loaded in the isolated environment and ready to
+    // be tested.
+    // ...
+
+    testPolling: function (channel) {
+        var self = this;
+        var _xhr = channel.XMLHttpRequest;
+        var data = [
+            { id: 1, message: 'First.' },
+            { id: 2, message: 'Second.' },
+            { id: 3, message: 'Third.' }
+        ];
+
+        self.expect(7);
+
+        // Push items from `data`, one by one, every 250ms. once xhr.send is
+        // called.
+        channel.XMLHttpRequest = mockLongPollingRequest({
+            data: _.map(data, JSON.stringify),
+            frequency: 50,
+
+            onOpen: function (method, url, async) {
+                self.assertEqual(method, 'GET');
+                self.assertEqual(url, 'http://localhost:8888/poll/');
+                self.assertTrue(async, true);
+            }
+        });
+
+        // Function we test--called as a simple function here
+        // simply because I redacted out all Disqus specific stuff.
+        poll(100);
+
+        self.pause();
+        setTimeout(function () {
+            self.assertEqual(queue.length, 2);
+            self.assertTrue(!!queue.get(1));
+            self.assertTrue(!!queue.get(2));
+
+            // Comment with id 3 shouldn't be added to the queue
+            self.assertFalse(!!queue.get(3));
+            self.resume();
+        }, 350);
+
+        // Cleanup
+        channel.XMLHttpRequest = _xhr;
+    }
+}));
+</code></pre>
+
+<p>And that’s it: a simple and neat way to mock and test your long polling requests. But I didn’t make this post for no reason, I made it for a community code review! What problems do you see with this approach and implementation? Share in comments.</p>
+<p><strong>Thanks</strong> to Pamela Fox for editing drafts of this.</p>
+<p>P.S. By the way, <a href="http://disqus.com/">Disqus</a> is hiring JavaScript engineers for our small front-end team of 4 people. If you’re an awesome programmer and would like to work with us—send me <a href="mailto:anton@disqus.com">an email</a>. For example, one of your responsibilities would be building cool stuff for over than 500M monthly uniques.</p>
